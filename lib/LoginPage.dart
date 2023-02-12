@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
   runApp(const LMApp());
@@ -67,6 +66,7 @@ class LMPage extends StatelessWidget {
                 child:  Padding(
                   padding: EdgeInsets.all(8.0),
                   child:Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset('lib/images/phone.jpeg',height: 40,width: 40,),
                       const Text('Continue with Mobile',style: TextStyle(
@@ -102,6 +102,7 @@ class LMPage extends StatelessWidget {
                 child:  Padding(
                   padding: EdgeInsets.all(8.0),
                   child:Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset('lib/images/google.png',height: 40,width: 40,),
                       const Text('Continue with Gmail',style: TextStyle(
