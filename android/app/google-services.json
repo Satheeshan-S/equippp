@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "999526246755",
+    "project_id": "equipp-app",
+    "storage_bucket": "equipp-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999526246755:android:bb5ee76ebd3e3790334b56",
+        "android_client_info": {
+          "package_name": "com.example.equippp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999526246755-5vom2pqvtkq6ojh5qrts5p6lfuksjofn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLtu33qy6izJtKOvJbdK5f3OrRxKf6Rpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999526246755-5vom2pqvtkq6ojh5qrts5p6lfuksjofn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
