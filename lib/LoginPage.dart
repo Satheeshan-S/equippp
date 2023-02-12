@@ -1,59 +1,141 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
-  runApp(const LApp());
+  runApp(const LMApp());
 }
 
-class LApp extends StatelessWidget {
-  const LApp({super.key});
+class LMApp extends StatelessWidget {
+  const LMApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-            ),
-          ),
-        ),
-        body: LPage(),
+        body: const LMPage(),
       ),
     );
   }
 }
 
-class LPage extends StatelessWidget {
-  const LPage({super.key});
+class LMPage extends StatelessWidget {
+  const LMPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('Sign in as Mentor'),
-        const Text('Hello,welcome back to Trag'),
-        SizedBox(
-          height: 50,
-          width: 170,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.phone,
-                size: 24.0,
+        Container(
+          color: Colors.white.withOpacity(0.5),
+          child: Image.asset("lib/images/images.png"),
+        ),
+        const Padding(padding: EdgeInsets.only(top: 60)),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(
+            'Sign in as Mentor',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+          ),
+        ),
+        const Padding(padding: EdgeInsets.only(top: 5)),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(
+            'Hello,welcome back to Trag',
+            style: TextStyle(fontSize: 10),
+          ),
+        ),
+        const Padding(padding: EdgeInsets.only(top: 40)),
+        Center(
+          child: SizedBox(
+            height: 40,
+            width: 250,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: const MaterialStatePropertyAll<Color>(
+                        Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ))),
+                onPressed: () {
+                  null;
+                },
+                child:  Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child:Row(
+                    children: <Widget>[
+                      Image.asset('lib/images/phone.jpeg',height: 40,width: 40,),
+                      const Text('Continue with Mobile',style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15
+                      ),)
+                    ],
+                  ),
+                ),
               ),
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.brown)))),
-              onPressed: () {
-                null;
-              },
-              label: const Text('Login with Mobile Number'),
             ),
+          ),
+        ),
+        const Padding(padding: EdgeInsets.all(13)),
+        Center(
+          child: SizedBox(
+            height: 40,
+            width: 250,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: const MaterialStatePropertyAll<Color>(
+                        Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ))),
+                onPressed: () {
+                  null;
+                },
+                child:  Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child:Row(
+                    children: <Widget>[
+                      Image.asset('lib/images/google.png',height: 40,width: 40,),
+                      const Text('Continue with Gmail',style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15
+                      ),)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const Padding(padding: EdgeInsets.all(15)),
+        Center(
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Null;
+            },
+            icon: const Icon(
+              Icons.arrow_right_outlined,
+              size: 24.0,
+            ),
+            label: const Text('Login'),
+          ),
+        ),
+        const Padding(padding: EdgeInsets.all(8)),
+        Center(
+          child: TextButton(
+            onPressed: () {
+              Null;
+            },
+            child: const Text('Dont have an account please register? Sign up'),
           ),
         ),
       ],
