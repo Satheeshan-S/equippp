@@ -1,3 +1,5 @@
+import 'package:equippp/mailc.dart';
+import 'package:equippp/service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,17 +11,22 @@ class LMApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: const LMPage(),
+        body: LMPage(),
       ),
     );
   }
 }
 
-class LMPage extends StatelessWidget {
+class LMPage extends StatefulWidget {
   const LMPage({super.key});
 
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<LMPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,8 +61,8 @@ class LMPage extends StatelessWidget {
               padding: const EdgeInsets.only(right: 15),
               child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: const MaterialStatePropertyAll<Color>(
-                        Colors.white),
+                    backgroundColor:
+                        const MaterialStatePropertyAll<Color>(Colors.white),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
@@ -63,17 +70,23 @@ class LMPage extends StatelessWidget {
                 onPressed: () {
                   null;
                 },
-                child:  Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child:Row(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset('lib/images/phone.jpeg',height: 40,width: 40,),
-                      const Text('Continue with Mobile',style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15
-                      ),)
+                      Image.asset(
+                        'lib/images/phone.jpeg',
+                        height: 40,
+                        width: 40,
+                      ),
+                      const Text(
+                        'Continue with Mobile',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
+                      )
                     ],
                   ),
                 ),
@@ -90,26 +103,34 @@ class LMPage extends StatelessWidget {
               padding: const EdgeInsets.only(right: 15),
               child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: const MaterialStatePropertyAll<Color>(
-                        Colors.white),
+                    backgroundColor:
+                        const MaterialStatePropertyAll<Color>(Colors.white),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))),
-                onPressed: () {
-                  null;
+                      borderRadius: BorderRadius.circular(25.0),
+                    ))),
+                onPressed: () async {
+                  await FirebaseServices().signInWithGoogle();
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => MCPage()));
                 },
-                child:  Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child:Row(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset('lib/images/google.png',height: 40,width: 40,),
-                      const Text('Continue with Gmail',style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15
-                      ),)
+                      Image.asset(
+                        'lib/images/google.png',
+                        height: 40,
+                        width: 40,
+                      ),
+                      const Text(
+                        'Continue with Gmail',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
+                      )
                     ],
                   ),
                 ),
@@ -121,7 +142,6 @@ class LMPage extends StatelessWidget {
         Center(
           child: ElevatedButton.icon(
             onPressed: () {
-              Null;
             },
             icon: const Icon(
               Icons.arrow_right_outlined,
@@ -134,7 +154,7 @@ class LMPage extends StatelessWidget {
         Center(
           child: TextButton(
             onPressed: () {
-              Null;
+              null;
             },
             child: const Text('Dont have an account please register? Sign up'),
           ),
