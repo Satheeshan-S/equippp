@@ -13,6 +13,7 @@ class LMApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner:false,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: LMPage(),
@@ -40,7 +41,7 @@ class _LoginState extends State<LMPage> {
         ),
         const Padding(padding: EdgeInsets.only(top: 60)),
         const Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 25),
           child: Text(
             'Sign in as Mentor',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
@@ -48,7 +49,7 @@ class _LoginState extends State<LMPage> {
         ),
         const Padding(padding: EdgeInsets.only(top: 5)),
         const Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 25),
           child: Text(
             'Hello,welcome back to Trag',
             style: TextStyle(fontSize: 10),
@@ -114,7 +115,7 @@ class _LoginState extends State<LMPage> {
                 onPressed: () async {
                   await FirebaseServices().signInWithGoogle();
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => MCPage()));
+                      context, MaterialPageRoute(builder: (context) => const MCPage()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
