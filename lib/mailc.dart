@@ -6,6 +6,17 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(const MCPage());
 }
+class LMapp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+   return const MaterialApp(
+     home: Scaffold(
+       body: MCPage(),
+     ),
+   );
+  }
+
+}
 
 class MCPage extends StatefulWidget {
   const MCPage({super.key});
@@ -19,7 +30,7 @@ class _MCState extends State<MCPage> {
   void initState() {
     super.initState();
     Timer(
-        const Duration(seconds: 2),
+        const Duration(seconds: 5),
         () => Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const LMApp())));
   }
@@ -35,6 +46,7 @@ class _MCState extends State<MCPage> {
           ),
           const Padding(padding: EdgeInsets.only(top: 60)),
           Text('${FirebaseAuth.instance.currentUser!.displayName}'),
+
         ]);
   }
 }

@@ -84,7 +84,7 @@ class _LoginState extends State<LMPage> {
                         'Continue with Mobile',
                         style: TextStyle(
                             color: Colors.black87,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 15),
                       )
                     ],
@@ -128,7 +128,7 @@ class _LoginState extends State<LMPage> {
                         'Continue with Gmail',
                         style: TextStyle(
                             color: Colors.black87,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 15),
                       )
                     ],
