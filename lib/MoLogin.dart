@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+ 
 void main() {
   runApp(const MoLoginApp());
 }
@@ -82,7 +84,7 @@ class _MLoginState extends State<MoLoginpage> {
           const Padding(padding: EdgeInsets.only(top: 20)),
           Center(
             child: SizedBox(
-              height: 50,
+              height: 45,
               width: 299,
               child: TextFormField(
                   style: const TextStyle(

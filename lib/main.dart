@@ -1,11 +1,13 @@
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'Provider/auth_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,11 +15,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: fpage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: Colors.white,
+          body: fpage(),
+        ),
       ),
     );
   }
@@ -53,7 +60,7 @@ class fpage extends StatelessWidget {
               ))),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SApp()));
+                    context, MaterialPageRoute(builder: (context) => const SApp()));
               },
               child: const Text("Register"),
             ),
