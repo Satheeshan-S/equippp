@@ -1,3 +1,4 @@
+import 'package:equippp/MoLogin.dart';
 import 'package:equippp/mailc.dart';
 import 'package:equippp/service.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class LMApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.white,
         body: LMPage(),
       ),
     );
@@ -33,7 +35,7 @@ class _LoginState extends State<LMPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white,
           child: Image.asset("lib/images/images.png"),
         ),
         const Padding(padding: EdgeInsets.only(top: 60)),
@@ -68,7 +70,7 @@ class _LoginState extends State<LMPage> {
                       borderRadius: BorderRadius.circular(25.0),
                     ))),
                 onPressed: () {
-                  null;
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=>const MoLoginApp()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

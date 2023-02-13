@@ -4,13 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MCPage());
+  runApp(const LMApp());
 }
 class LMapp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
    return const MaterialApp(
      home: Scaffold(
+       backgroundColor: Colors.white,
        body: MCPage(),
      ),
    );
