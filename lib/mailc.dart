@@ -33,6 +33,7 @@ class _MCState extends State<MCPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
       backgroundColor: Colors.white,
       body: Column(
