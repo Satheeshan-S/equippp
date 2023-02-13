@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:country_picker/country_picker.dart';
 
 void main() {
   runApp(const MoLoginApp());
@@ -27,8 +28,22 @@ class MoLoginpage extends StatefulWidget {
 }
 
 class _MLoginState extends State<MoLoginpage> {
+  final TextEditingController phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    Country selectedCountry = Country(
+      phoneCode: '91',
+      countryCode: 'IN',
+      e164Sc: 0,
+      geographic: true,
+      level: 1,
+      name: 'India',
+      example: 'India',
+      displayName: 'India',
+      displayNameNoCountryCode: 'IN',
+      e164Key: '',
+    );
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,31 +70,61 @@ class _MLoginState extends State<MoLoginpage> {
           ),
           const Padding(padding: EdgeInsets.only(top: 40)),
           const Padding(
-            padding: EdgeInsets.only(left: 25),
+            padding: EdgeInsets.only(left: 30),
             child: Text(
               'Phone Number',
-              style: TextStyle(fontSize: 13),
+              style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 20)),
           Center(
             child: SizedBox(
-              height: 33,
-              width: 310,
+              height: 50,
+              width: 299,
               child: TextFormField(
+                  controller: phoneController,
                   decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              )),
+                      hintText: 'Enter Your Phone Number',
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Colors.black87)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(color: Colors.black87)),
+                      prefixIcon: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            showCountryPicker(
+                                context: context,
+                                onSelect: (value) {
+                                  setState(() {
+                                    selectedCountry = value;
+                                  });
+                                });
+                          },
+                          child: Text(
+                            '${selectedCountry.flagEmoji} ${selectedCountry.phoneCode}',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ))),
             ),
           ),
           const Padding(padding: EdgeInsets.all(15)),
           Center(
             child: ElevatedButton.icon(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ))),
               onPressed: () {},
               icon: const Icon(
-                Icons.arrow_right_outlined,
+                Icons.arrow_right,
                 size: 24.0,
               ),
               label: const Text('Request OTP'),
