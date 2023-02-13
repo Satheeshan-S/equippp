@@ -2,7 +2,7 @@ import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner:false,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: fpage(),
@@ -49,9 +49,11 @@ class fpage extends StatelessWidget {
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),))),
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> SApp()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => SApp()));
               },
               child: const Text("Register"),
             ),

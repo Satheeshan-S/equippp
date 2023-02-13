@@ -12,7 +12,7 @@ class SApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner:false,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: SPage(),
@@ -23,7 +23,6 @@ class SApp extends StatelessWidget {
 
 class SPage extends StatelessWidget {
   const SPage({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,8 @@ class SPage extends StatelessWidget {
                   style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),))),
+                    borderRadius: BorderRadius.circular(25.0),
+                  ))),
                   onPressed: () {
                     null;
                   },
@@ -79,9 +79,11 @@ class SPage extends StatelessWidget {
                   style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),))),
+                    borderRadius: BorderRadius.circular(25.0),
+                  ))),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const LMApp()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const LMApp()));
                   },
                   child: const Text("Mentor"),
                 ),
@@ -92,7 +94,13 @@ class SPage extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.only(top: 30),
         ),
-        const Center(child: Text('we have 1000+ session and 1 lakhs mentors world wide',style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: Colors.black),),),
+        const Center(
+          child: Text(
+            'we have 1000+ session and 1 lakhs mentors world wide',
+            style: TextStyle(
+                fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+        ),
       ],
     );
   }

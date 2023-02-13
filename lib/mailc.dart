@@ -33,21 +33,24 @@ class _MCState extends State<MCPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                color: Colors.white,
-                child: Image.asset("lib/images/images.png"),
-              ),
-              const Padding(padding: EdgeInsets.only(top: 60)),
-             Center( child:Text('${FirebaseAuth.instance.currentUser!.displayName}',style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
-            ],
-        ),
-      )
-    );
+        home: Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            child: Image.asset("lib/images/images.png"),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 60)),
+          Center(
+              child: Text(
+            '${FirebaseAuth.instance.currentUser!.displayName}',
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
+        ],
+      ),
+    ));
   }
 
   @override
