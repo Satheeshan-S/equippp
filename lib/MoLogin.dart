@@ -1,8 +1,10 @@
+import 'package:equippp/Provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
- 
+import 'package:provider/provider.dart';
+
 void main() {
   runApp(const MoLoginApp());
 }
@@ -84,7 +86,7 @@ class _MLoginState extends State<MoLoginpage> {
           const Padding(padding: EdgeInsets.only(top: 20)),
           Center(
             child: SizedBox(
-              height: 45,
+              height: 50,
               width: 299,
               child: TextFormField(
                   style: const TextStyle(
@@ -97,9 +99,9 @@ class _MLoginState extends State<MoLoginpage> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Enter Your Phone Number',
-                    hintStyle:  TextStyle(
+                    hintStyle: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 17,
+                        fontSize: 16,
                         color: Colors.grey.shade600),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -108,7 +110,7 @@ class _MLoginState extends State<MoLoginpage> {
                         borderRadius: BorderRadius.circular(16),
                         borderSide: const BorderSide(color: Colors.black87)),
                     prefixIcon: Container(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top: 12.0,left: 8.0),
                       child: InkWell(
                         onTap: () {
                           showCountryPicker(
@@ -124,7 +126,7 @@ class _MLoginState extends State<MoLoginpage> {
                         child: Text(
                           '${selectedCountry.flagEmoji} ${selectedCountry.phoneCode}',
                           style: const TextStyle(
-                              fontSize: 17,
+                              fontSize: 16,
                               color: Colors.black87,
                               fontWeight: FontWeight.bold),
                         ),
@@ -156,7 +158,7 @@ class _MLoginState extends State<MoLoginpage> {
                       RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ))),
-              onPressed: () {},
+              onPressed: () => sendPhoneNumber(),
               icon: const Icon(
                 Icons.arrow_right,
                 size: 24.0,
@@ -177,5 +179,11 @@ class _MLoginState extends State<MoLoginpage> {
         ],
       ),
     );
+  }
+
+  void sendPhoneNumber() {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    String phoneNumber = phoneController.text.trim();
+    ap.signInWithPhone(context, '+${selectedCountry.phoneCode}$phoneNumber');
   }
 }
