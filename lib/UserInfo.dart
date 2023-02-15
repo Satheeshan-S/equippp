@@ -8,24 +8,29 @@ class Uapp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: UserInformation(),
-      ),
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: InterestField(),
+          )),
     );
   }
 }
 
-class UserInformation extends StatefulWidget {
-  const UserInformation({Key? key}) : super(key: key);
+class InterestField extends StatefulWidget {
+  const InterestField({Key? key}) : super(key: key);
 
   @override
-  State<UserInformation> createState() => _UserInformationState();
+  State<InterestField> createState() => _InterestFieldState();
 }
 
-class _UserInformationState extends State<UserInformation> {
+class _InterestFieldState extends State<InterestField> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('logged in successfully'),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+
+      ],
     );
   }
 }

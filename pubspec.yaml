@@ -80,6 +80,7 @@ flutter:
     - lib/images/sb.png
     - lib/images/top.jpg
     - lib/images/images.png
+    - lib/images/sports.jpeg
     - lib/images/topimage.jpg
     - lib/images/otp.jpg
     - lib/images/google.png
