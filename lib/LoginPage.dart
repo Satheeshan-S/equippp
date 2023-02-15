@@ -30,10 +30,10 @@ class _LoginState extends State<LMPage> {
               ),
               const Padding(padding: EdgeInsets.only(top: 60)),
               Padding(
-                padding: EdgeInsets.only(left: 25),
+                padding: const EdgeInsets.only(left: 25),
                 child: Text(
                   'Sign in as ${widget.choice.selector}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 5)),
