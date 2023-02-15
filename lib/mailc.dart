@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:equippp/LoginPage.dart';
+import 'package:equippp/UserInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const LMApp());
+  runApp(const LMapp());
 }
 
 class LMapp extends StatelessWidget {
@@ -60,6 +61,6 @@ class _MCState extends State<MCPage> {
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const LMApp())));
+            context, MaterialPageRoute(builder: (context) =>  const Uapp())));
   }
 }

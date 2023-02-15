@@ -5,7 +5,10 @@ import 'LoginPage.dart';
 void main() {
   runApp(const SApp());
 }
-
+class Choice{
+  final String selector;
+  Choice(this.selector);
+}
 class SApp extends StatelessWidget {
   const SApp({super.key});
 
@@ -39,7 +42,7 @@ class SPage extends StatelessWidget {
             ),
           ),
         ),
-        Padding(padding: EdgeInsets.only(top: 4)),
+        const Padding(padding: EdgeInsets.only(top: 4)),
         const Center(
           child: Text(
             'Register as',
@@ -64,7 +67,8 @@ class SPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25.0),
                   ))),
                   onPressed: () {
-                    null;
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>  LMPage(choice: Choice('Learner'))));
                   },
                   child: const Text("Learner"),
                 ),
@@ -83,7 +87,7 @@ class SPage extends StatelessWidget {
                   ))),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const LMApp()));
+                        MaterialPageRoute(builder: (context) =>  LMPage(choice: Choice('Mentor'), )));
                   },
                   child: const Text("Mentor"),
                 ),
