@@ -83,7 +83,7 @@ class _LoginState extends State<LMPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Image.asset(
-                          'lib/images/phone.jpeg',
+                          'lib/images/top.jpg',
                           height: 40,
                           width: 40,
                         ),
