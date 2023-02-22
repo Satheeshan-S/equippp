@@ -25,15 +25,21 @@ class _LoginState extends State<LMPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                color: Colors.white,
-                child: Image.asset("lib/images/images.png"),
-              ),
+                  color: Colors.white,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => SApp()));
+                    },
+                    child: Image.asset("lib/images/images.png"),
+                  )),
               const Padding(padding: EdgeInsets.only(top: 60)),
               Padding(
                 padding: const EdgeInsets.only(left: 25),
                 child: Text(
                   'Sign in as ${widget.choice.selector}',
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 26),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 5)),

@@ -1,4 +1,6 @@
+import 'package:equippp/LoginPage.dart';
 import 'package:equippp/Provider/auth_provider.dart';
+import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -57,7 +59,16 @@ class _MLoginState extends State<MoLoginpage> {
         children: <Widget>[
           Container(
             color: Colors.white,
-            child: Image.asset("lib/images/images.png"),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SApp(),
+                    ));
+              },
+              child: Image.asset("lib/images/images.png"),
+            ),
           ),
           const Padding(padding: EdgeInsets.only(top: 46)),
           const Padding(
