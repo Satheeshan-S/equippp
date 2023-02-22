@@ -48,6 +48,7 @@ dependencies:
   shared_preferences: ^2.0.15
   provider: ^6.0.5
   custom_button: ^0.0.1
+  group_button: ^5.2.2
 
 
 
@@ -84,6 +85,8 @@ flutter:
     - lib/images/topimage.jpg
     - lib/images/otp.jpg
     - lib/images/google.png
+    - lib/images/status.png
+    - lib/images/working.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
