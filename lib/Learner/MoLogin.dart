@@ -1,4 +1,4 @@
-import 'package:equippp/LoginPage.dart';
+import 'package:equippp/Learner/LoginPage.dart';
 import 'package:equippp/Provider/auth_provider.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,7 @@
+import 'package:equippp/Mentor/signuppage.dart';
 import 'package:flutter/material.dart';
 
-import 'LoginPage.dart';
+import 'Learner/LoginPage.dart';
 
 void main() {
   runApp(const SApp());
@@ -86,9 +87,8 @@ class SPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25.0),
                   ))),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) =>  LMPage(choice: Choice('Mentor'), )));
-                  },
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MSignup()));
+                    },
                   child: const Text("Mentor"),
                 ),
               ),

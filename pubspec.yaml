@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   file_picker: ^5.2.5
   pinput: ^2.2.23
-  dropdownfield: ^0.0.2
+  dropdownfield: ^1.0.3
   firebase_core: ^2.4.1
   google_sign_in: ^5.4.4
   firebase_database: ^10.0.9

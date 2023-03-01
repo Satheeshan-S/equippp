@@ -73,7 +73,7 @@ class fpage extends StatelessWidget {
               onPressed: () {
                 null;
               },
-              child: const Text("You have already register ? Sign in"),
+              child: const Text("You have already register ? Log in"),
             ),
           ),
         ),

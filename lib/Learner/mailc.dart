@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:equippp/LoginPage.dart';
-import 'package:equippp/UserInfo.dart';
+import 'package:equippp/Learner/LoginPage.dart';
+import 'package:equippp/Learner/UserInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

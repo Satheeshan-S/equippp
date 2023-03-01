@@ -101,10 +101,10 @@ packages:
     dependency: "direct main"
     description:
       name: dropdownfield
-      sha256: ba6d1a164c7098eb0c9dd89f513081476cc4f7fad8af2394e3554e2fc6ac1c03
+      sha256: "4eadceb464737ba9a3a18573c0fcdb13191ba701f30a94db28949e4722207f55"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "1.0.3"
   fake_async:
     dependency: transitive
     description:

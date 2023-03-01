@@ -1,10 +1,10 @@
-import 'package:equippp/UserInfo.dart';
+import 'package:equippp/Learner/UserInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
-import 'Provider/auth_provider.dart';
+import '../Provider/auth_provider.dart';
 import 'MoLogin.dart';
-import 'Provider/utils.dart';
+import '../Provider/utils.dart';
 
 class OTPPage extends StatefulWidget {
   final String verificationId;

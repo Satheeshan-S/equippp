@@ -1,6 +1,6 @@
-import 'package:equippp/MoLogin.dart';
-import 'package:equippp/mailc.dart';
-import 'package:equippp/service.dart';
+import 'package:equippp/Learner/MoLogin.dart';
+import 'package:equippp/Learner/mailc.dart';
+import 'package:equippp/Learner/service.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 
