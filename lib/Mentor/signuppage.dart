@@ -1,11 +1,12 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:equippp/Mentor/signup_2.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 
 List<String> list = <String>['Male', 'Female', 'Others'];
 String dropdownValue = list.first;
 
-List<String> agelist = <String>['1', '2', '3`'];
+List<String> agelist = <String>['1', '2', '3','4'];
 
 class MSignup extends StatelessWidget {
   const MSignup({Key? key}) : super(key: key);
@@ -335,7 +336,7 @@ class _MsignupstateState extends State<Msignupstate> {
                           borderRadius: BorderRadius.circular(18.0),
                         ))),
                 onPressed: () {
-                  Null;
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const MSignup_2()));
                 },
                 icon: const Icon(Icons.arrow_right_alt),
                 label: const Text('Next'),
