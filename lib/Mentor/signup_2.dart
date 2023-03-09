@@ -1,16 +1,20 @@
 import 'package:equippp/Mentor/signuppage.dart';
+import 'package:equippp/main.dart';
 import 'package:flutter/material.dart';
 
-String dropdownValue = 'Computer Science';
+String dropdownValue = 'select';
 
 class MSignup_2 extends StatelessWidget {
   const MSignup_2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      home: const Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(child: Msignupstate_2()),
       ),
@@ -88,7 +92,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
           child: Text('Why do you want to conduct this session.'),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: const EdgeInsets.only(left: 18, right: 18),
           child: TextFormField(
             maxLines: 5,
             minLines: 3,
@@ -114,38 +118,47 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
           padding: EdgeInsets.only(left: 18, bottom: 5),
           child: Text('Add Skills'),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          child: DropdownButtonFormField(
-            decoration: const InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black, width: 0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black, width: 0),
-              ),
-              filled: true,
-              fillColor: Colors.white,
-            ),
-            dropdownColor: Colors.white,
-            value: dropdownValue,
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: <String>['Computer Science', 'Civil', 'UPSC', 'SSC']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  style: const TextStyle(fontSize: 20),
+        SizedBox(
+          height: 40,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 18, right: 18),
+            child: DropdownButtonFormField(
+              decoration: const InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 0),
                 ),
-              );
-            }).toList(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 0),
+                ),
+                fillColor: Colors.white,
+                filled: true,
+              ),
+              dropdownColor: Colors.white,
+              value: dropdownValue,
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: <String>[
+                'select',
+                'Computer Science',
+                'Civil',
+                'UPSC',
+                'SSC'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.normal),
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ),
         const SizedBox(
@@ -153,21 +166,102 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 220),
-          child:SizedBox(height:40,width: 120,child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: ElevatedButton.icon(
-                style: ButtonStyle(
-                    shape:
-                    MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        ))),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const MSignup_2()));
-                },
-                icon: const Icon(Icons.arrow_right_alt),
-                label: const Text('Request'),
-              )),
+          child: SizedBox(
+            height: 40,
+            width: 120,
+            child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blueAccent),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ))),
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      backgroundColor: Colors.deepPurpleAccent,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: 400,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black)),
+                                    ),
+                                    height: 200,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const <Widget>[
+                                          Text(
+                                            'Thank You',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          Icon(
+                                            Icons.verified_rounded,
+                                            size: 150,
+                                            color: Colors.white,
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                                Container(
+                                  height: 200,
+                                  color: Colors.white,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      const SizedBox(height: 14,),
+                                      const Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20, right: 12),
+                                          child: Text(
+                                              'We will get back to you within 48 hours shortly please check your mail'),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MyApp()));
+                                          },
+                                          child: const Text(
+                                              'Go back to home page')),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.arrow_right_alt,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Request',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )),
           ),
         )
       ],
