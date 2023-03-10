@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:equippp/Mentor/signup_2.dart';
 import 'package:equippp/spage.dart';
@@ -30,9 +31,14 @@ class Msignupstate extends StatefulWidget {
   State<Msignupstate> createState() => _MsignupstateState();
 }
 
+TextEditingController nameController = TextEditingController();
+TextEditingController statusController = TextEditingController();
+TextEditingController explainController = TextEditingController();
+TextEditingController mPhone = TextEditingController();
+TextEditingController genderController = TextEditingController();
+TextEditingController ageController = TextEditingController();
+
 class _MsignupstateState extends State<Msignupstate> {
-  String agevalue = '1';
-  final TextEditingController mPhone = TextEditingController();
   Country selectedCountry = Country(
     phoneCode: '91',
     countryCode: 'IN',
@@ -45,6 +51,38 @@ class _MsignupstateState extends State<Msignupstate> {
     displayNameNoCountryCode: 'IN',
     e164Key: '',
   );
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+     nameController = TextEditingController();
+    statusController = TextEditingController();
+     explainController = TextEditingController();
+     mPhone = TextEditingController();
+     genderController = TextEditingController();
+     ageController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    statusController.dispose();
+    explainController.dispose();
+    mPhone.dispose();
+    genderController.dispose();
+    ageController.dispose();
+    super.dispose();
+  }
+  Future<void> _saveData() async {
+    final name = nameController.text;
+    final gender=  genderController.toString();
+    final age = int.tryParse(ageController.text) ?? 0;
+    final phone= int.tryParse(mPhone.text)??0;
+    final status=statusController.text;
+    final explain= explainController.text;
+    final myData = MyData(name: name, age: age,gender: gender,phone: phone,status: status,explain:explain);
+    await _db.collection('Mentor').doc(name).collection('Mentor').add(myData.toJson());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +131,11 @@ class _MsignupstateState extends State<Msignupstate> {
             height: 60,
             width: 320,
             child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  nameController.text = value;
+                });
+              },
               decoration: InputDecoration(
                 fillColor: Colors.grey.withOpacity(0.2),
                 filled: true,
@@ -140,6 +183,7 @@ class _MsignupstateState extends State<Msignupstate> {
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownValue = newValue!;
+                        genderController=newValue as TextEditingController;
                       });
                     },
                     items: <String>['Male', 'Female', 'Others']
@@ -159,39 +203,28 @@ class _MsignupstateState extends State<Msignupstate> {
               child: SizedBox(
                   height: 60,
                   width: 150,
-                  child: DropdownButtonFormField(
-                    icon: const Icon(Icons.arrow_downward_sharp),
+                  child:TextFormField(
+                    onChanged: (value){
+                      setState(() {
+                        ageController.text=value as String;
+                      });
+                    },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.2),
+                      fillColor: Colors.white,
+                      hintText: 'Age',
                       labelText: 'Age',
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: const BorderSide(color: Colors.black87),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: const BorderSide(color: Colors.black12),
                       ),
                     ),
-                    dropdownColor: Colors.white,
-                    value: agevalue,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        agevalue = newValue!;
-                      });
-                    },
-                    items: <String>['1', '2', '3', '4']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      );
-                    }).toList(),
-                  )),
+                  )
+              ),
             ),
           ],
         ),
@@ -281,6 +314,11 @@ class _MsignupstateState extends State<Msignupstate> {
             height: 60,
             width: 320,
             child: TextFormField(
+              onChanged: (value){
+                setState(() {
+                  statusController.text=value;
+                });
+              },
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -304,6 +342,11 @@ class _MsignupstateState extends State<Msignupstate> {
             height: 60,
             width: 320,
             child: TextFormField(
+              onChanged: (value){
+                setState(() {
+                  explainController.text=value as String;
+                });
+              },
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -336,6 +379,7 @@ class _MsignupstateState extends State<Msignupstate> {
                           borderRadius: BorderRadius.circular(18.0),
                         ))),
                 onPressed: () {
+                  _saveData();
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>const MSignup_2()));
                 },
                 icon: const Icon(Icons.arrow_right_alt),
@@ -345,5 +389,26 @@ class _MsignupstateState extends State<Msignupstate> {
         ),
       ],
     );
+  }
+}
+class MyData {
+  String name;
+  String gender;
+  int age;
+  int phone;
+  String status;
+  String explain;
+
+  MyData({required this.name,required this.gender,required this.age, required  this.phone,required this.status,required this.explain});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'gender':gender,
+      'age': age,
+      'phone':phone,
+      'status':status,
+      'explain':explain
+    };
   }
 }

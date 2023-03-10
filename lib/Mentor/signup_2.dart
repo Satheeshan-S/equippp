@@ -54,7 +54,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MSignup(),
+                    builder: (context) => MSignup(),
                   ));
             },
             child: Image.asset("lib/images/images.png"),
