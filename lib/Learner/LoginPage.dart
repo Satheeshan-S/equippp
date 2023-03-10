@@ -5,9 +5,8 @@ import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 
 class LMPage extends StatefulWidget {
-  final Choice choice;
 
-  const LMPage({super.key, required this.choice});
+  const LMPage({super.key});
 
   @override
   _LoginState createState() => _LoginState();
@@ -34,11 +33,11 @@ class _LoginState extends State<LMPage> {
                     child: Image.asset("lib/images/images.png"),
                   )),
               const Padding(padding: EdgeInsets.only(top: 60)),
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
+              const Padding(
+                padding: EdgeInsets.only(left: 25),
                 child: Text(
-                  'Sign in as ${widget.choice.selector}',
-                  style: const TextStyle(
+                  'Sign in as Learner',
+                  style: TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 26),
                 ),
               ),

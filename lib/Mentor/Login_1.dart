@@ -1,17 +1,9 @@
-import 'package:equippp/Mentor/signuppage.dart';
+import 'package:equippp/Learner/LoginPage.dart';
+import 'package:equippp/Mentor/Mlogin.dart';
 import 'package:flutter/material.dart';
 
-import 'Learner/LoginPage.dart';
-
-void main() {
-  runApp(const SApp());
-}
-class Choice{
-  final String selector;
-  Choice(this.selector);
-}
-class SApp extends StatelessWidget {
-  const SApp({super.key});
+class SLogin extends StatelessWidget {
+  const SLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +11,14 @@ class SApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
-        body: SPage(),
+        body: MSLogin(),
       ),
     );
   }
 }
 
-class SPage extends StatelessWidget {
-  const SPage({super.key});
+class MSLogin extends StatelessWidget {
+  const MSLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +38,7 @@ class SPage extends StatelessWidget {
         const Padding(padding: EdgeInsets.only(top: 4)),
         const Center(
           child: Text(
-            'Register as',
+            'Log In as',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
@@ -65,11 +57,11 @@ class SPage extends StatelessWidget {
                   style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ))),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ))),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) =>  LMPage()));
+                        MaterialPageRoute(builder: (context) =>const LMPage()));
                   },
                   child: const Text("Learner"),
                 ),
@@ -84,11 +76,11 @@ class SPage extends StatelessWidget {
                   style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ))),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ))),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MSignup()));
-                    },
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+                  },
                   child: const Text("Mentor"),
                 ),
               ),

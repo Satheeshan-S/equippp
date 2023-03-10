@@ -1,8 +1,8 @@
-import 'package:equippp/Mentor/Mlogin.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'Mentor/Login_1.dart';
 import 'Provider/auth_provider.dart';
 
 Future<void> main() async {
@@ -73,7 +73,7 @@ class fpage extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Login()));
+                    MaterialPageRoute(builder: (context) => const SLogin()));
               },
               child: const Text("You have already register ? Log in"),
             ),
