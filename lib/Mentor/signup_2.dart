@@ -1,5 +1,6 @@
 import 'package:equippp/Mentor/signuppage.dart';
 import 'package:equippp/main.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 String dropdownValue = 'select';
@@ -20,6 +21,14 @@ class MSignup_2 extends StatelessWidget {
       ),
     );
   }
+}
+
+late final result;
+
+void _pickFile() async {
+  final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+  if (result == null) return;
 }
 
 class Msignupstate_2 extends StatefulWidget {
@@ -75,13 +84,17 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
           height: 20,
         ),
         Center(
-          child: GestureDetector(
-            onTap: () {},
-            child: CircleAvatar(
-              radius: 60,
-              backgroundColor: Colors.brown.shade800,
-              child: const Text('H'),
+          child: Stack(children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                _pickFile();
+              },
+              child: const CircleAvatar(
+                radius: 60,
+                child: Text('H'),
+              ),
             ),
+            ],
           ),
         ),
         const SizedBox(
@@ -125,7 +138,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
             child: DropdownButtonFormField(
               decoration: const InputDecoration(
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black, width: 0),
                 ),
@@ -174,11 +187,11 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                 child: ElevatedButton.icon(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.blueAccent),
+                      MaterialStateProperty.all<Color>(Colors.blueAccent),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ))),
+                            borderRadius: BorderRadius.circular(18.0),
+                          ))),
                   onPressed: () {
                     showModalBottomSheet<void>(
                       backgroundColor: Colors.deepPurpleAccent,
@@ -194,13 +207,13 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                                     decoration: const BoxDecoration(
                                       border: Border(
                                           bottom:
-                                              BorderSide(color: Colors.black)),
+                                          BorderSide(color: Colors.black)),
                                     ),
                                     height: 200,
                                     child: Center(
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: const <Widget>[
                                           Text(
                                             'Thank You',
@@ -221,7 +234,8 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                                   height: 200,
                                   color: Colors.white,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceEvenly,
                                     children: <Widget>[
                                       const SizedBox(height: 14,),
                                       const Center(
@@ -234,17 +248,22 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                                       ),
                                       const SizedBox(height: 12),
                                       ElevatedButton(
-                                        style: ButtonStyle(
-                                             backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurpleAccent)), // Here Im having the error                                        ),
+                                          style: ButtonStyle(
+                                              backgroundColor: MaterialStateProperty
+                                                  .all<Color>(
+                                                  Colors.deepPurpleAccent)),
+                                          // Here Im having the error                                        ),
                                           onPressed: () {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const MyApp()));
+                                                    const MyApp()));
                                           },
                                           child: const Text(
-                                              'Go back to home page',style: TextStyle(color: Colors.white),)),
+                                            'Go back to home page',
+                                            style: TextStyle(
+                                                color: Colors.white),)),
                                     ],
                                   ),
                                 )

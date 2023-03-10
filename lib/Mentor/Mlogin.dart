@@ -1,5 +1,8 @@
 import 'package:equippp/main.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
+
+import 'ForgetPage.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class Login extends StatelessWidget {
 }
 
 final TextEditingController emailController = TextEditingController();
+final bool isValid = EmailValidator.validate(emailController as String);
 
 class MLogin extends StatefulWidget {
   const MLogin({Key? key}) : super(key: key);
@@ -63,6 +67,7 @@ class _MLoginState extends State<MLogin> {
             height: 60,
             width: 320,
             child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
               onChanged: (value) {
                 setState(() {
                   emailController.text = value;
@@ -72,7 +77,7 @@ class _MLoginState extends State<MLogin> {
                 fillColor: Colors.grey.withOpacity(0.2),
                 filled: true,
                 hintText: '',
-                labelText: ' ',
+                labelText: ' Email',
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: Colors.white),
@@ -81,14 +86,14 @@ class _MLoginState extends State<MLogin> {
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: Colors.black12),
                 ),
-                suffixIcon: emailController.text.length > 9
+                suffixIcon: EmailValidator.validate(emailController.text)
                     ? Container(
                         height: 30,
                         width: 30,
                         margin: const EdgeInsets.all(10.0),
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         child: const Icon(
                           Icons.done,
@@ -113,8 +118,8 @@ class _MLoginState extends State<MLogin> {
               decoration: InputDecoration(
                   fillColor: Colors.grey.withOpacity(0.2),
                   filled: true,
-                  hintText: '',
-                  labelText: ' ',
+                  hintText: 'Password',
+                  labelText: 'Password ',
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white),
@@ -134,7 +139,12 @@ class _MLoginState extends State<MLogin> {
                         "Forget?",
                         style: TextStyle(color: Colors.grey),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Forget()));
+                      },
                     ),
                   )),
             ),
@@ -149,7 +159,9 @@ class _MLoginState extends State<MLogin> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
-                onPressed: () {},
+                onPressed: () {
+                  null;
+                },
                 child: const Text(
                   'Log In',
                   style: TextStyle(color: Colors.white, fontSize: 20),
