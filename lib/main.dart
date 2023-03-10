@@ -1,3 +1,4 @@
+import 'package:equippp/Mentor/Mlogin.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -59,8 +60,8 @@ class fpage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.0),
               ))),
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const SApp()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SApp()));
               },
               child: const Text("Register"),
             ),
@@ -71,7 +72,8 @@ class fpage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 0),
             child: TextButton(
               onPressed: () {
-                null;
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Login()));
               },
               child: const Text("You have already register ? Log in"),
             ),

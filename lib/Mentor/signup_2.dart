@@ -234,6 +234,8 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                                       ),
                                       const SizedBox(height: 12),
                                       ElevatedButton(
+                                        style: ButtonStyle(
+                                             backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurpleAccent)), // Here Im having the error                                        ),
                                           onPressed: () {
                                             Navigator.push(
                                                 context,
@@ -242,7 +244,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                                                         const MyApp()));
                                           },
                                           child: const Text(
-                                              'Go back to home page')),
+                                              'Go back to home page',style: TextStyle(color: Colors.white),)),
                                     ],
                                   ),
                                 )
