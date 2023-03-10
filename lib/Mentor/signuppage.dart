@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 List<String> list = <String>['Male', 'Female', 'Others'];
 String dropdownValue = list.first;
 
-List<String> agelist = <String>['1', '2', '3','4'];
+List<String> agelist = <String>['1', '2', '3', '4'];
 
 class MSignup extends StatelessWidget {
   const MSignup({Key? key}) : super(key: key);
@@ -52,15 +52,16 @@ class _MsignupstateState extends State<Msignupstate> {
     e164Key: '',
   );
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   @override
   void initState() {
     super.initState();
-     nameController = TextEditingController();
+    nameController = TextEditingController();
     statusController = TextEditingController();
-     explainController = TextEditingController();
-     mPhone = TextEditingController();
-     genderController = TextEditingController();
-     ageController = TextEditingController();
+    explainController = TextEditingController();
+    mPhone = TextEditingController();
+    genderController = TextEditingController();
+    ageController = TextEditingController();
   }
 
   @override
@@ -73,15 +74,26 @@ class _MsignupstateState extends State<Msignupstate> {
     ageController.dispose();
     super.dispose();
   }
+
   Future<void> _saveData() async {
     final name = nameController.text;
-    final gender=  genderController.toString();
+    final gender = genderController.toString();
     final age = int.tryParse(ageController.text) ?? 0;
-    final phone= int.tryParse(mPhone.text)??0;
-    final status=statusController.text;
-    final explain= explainController.text;
-    final myData = MyData(name: name, age: age,gender: gender,phone: phone,status: status,explain:explain);
-    await _db.collection('Mentor').doc(name).collection('Mentor').add(myData.toJson());
+    final phone = int.tryParse(mPhone.text) ?? 0;
+    final status = statusController.text;
+    final explain = explainController.text;
+    final myData = MyData(
+        name: name,
+        age: age,
+        gender: gender,
+        phone: phone,
+        status: status,
+        explain: explain);
+    await _db
+        .collection('Mentor')
+        .doc(name)
+        .collection('Details')
+        .add(myData.toJson());
   }
 
   @override
@@ -183,7 +195,7 @@ class _MsignupstateState extends State<Msignupstate> {
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownValue = newValue!;
-                        genderController=newValue as TextEditingController;
+                        genderController = newValue as TextEditingController;
                       });
                     },
                     items: <String>['Male', 'Female', 'Others']
@@ -203,10 +215,10 @@ class _MsignupstateState extends State<Msignupstate> {
               child: SizedBox(
                   height: 60,
                   width: 150,
-                  child:TextFormField(
-                    onChanged: (value){
+                  child: TextFormField(
+                    onChanged: (value) {
                       setState(() {
-                        ageController.text=value as String;
+                        ageController.text = value as String;
                       });
                     },
                     decoration: InputDecoration(
@@ -223,23 +235,16 @@ class _MsignupstateState extends State<Msignupstate> {
                         borderSide: const BorderSide(color: Colors.black12),
                       ),
                     ),
-                  )
-              ),
+                  )),
             ),
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 18, bottom: 12),
+          padding: EdgeInsets.only(left: 18, bottom: 12),
           child: SizedBox(
             height: 60,
             width: 320,
             child: TextFormField(
-              cursorColor: Colors.black87,
-              controller: mPhone,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
               onChanged: (value) {
                 setState(() {
                   mPhone.text = value;
@@ -247,24 +252,20 @@ class _MsignupstateState extends State<Msignupstate> {
               },
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white.withOpacity(0.2),
-                hintText: "Enter phone number",
-                hintStyle: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 17,
-                  color: Colors.grey.shade600,
-                ),
+                fillColor: Colors.white,
+                hintText: 'Phone Number',
+                labelText: 'Phone Number',
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: Colors.black87),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black87),
+                  borderSide: const BorderSide(color: Colors.black12),
                 ),
                 prefixIcon: Container(
                   padding:
-                      const EdgeInsets.only(top: 12.0, right: 5.0, left: 4.0),
+                  const EdgeInsets.only(top: 12.0, right: 5.0, left: 4.0),
                   child: InkWell(
                     onTap: () {
                       showCountryPicker(
@@ -279,7 +280,7 @@ class _MsignupstateState extends State<Msignupstate> {
                           });
                     },
                     child: Text(
-                      "${'+'}  ${selectedCountry.phoneCode}",
+                      "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.black,
@@ -314,9 +315,9 @@ class _MsignupstateState extends State<Msignupstate> {
             height: 60,
             width: 320,
             child: TextFormField(
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
-                  statusController.text=value;
+                  statusController.text = value;
                 });
               },
               decoration: InputDecoration(
@@ -342,9 +343,9 @@ class _MsignupstateState extends State<Msignupstate> {
             height: 60,
             width: 320,
             child: TextFormField(
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
-                  explainController.text=value as String;
+                  explainController.text = value as String;
                 });
               },
               decoration: InputDecoration(
@@ -369,28 +370,34 @@ class _MsignupstateState extends State<Msignupstate> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 220),
-          child:SizedBox(height:40,width: 120,child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: ElevatedButton.icon(
-                style: ButtonStyle(
-                    shape:
-                    MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        ))),
-                onPressed: () {
-                  _saveData();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const MSignup_2()));
-                },
-                icon: const Icon(Icons.arrow_right_alt),
-                label: const Text('Next'),
-              )),
+          child: SizedBox(
+            height: 40,
+            width: 120,
+            child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ))),
+                  onPressed: () {
+                    _saveData();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MSignup_2()));
+                  },
+                  icon: const Icon(Icons.arrow_right_alt),
+                  label: const Text('Next'),
+                )),
           ),
         ),
       ],
     );
   }
 }
+
 class MyData {
   String name;
   String gender;
@@ -399,16 +406,22 @@ class MyData {
   String status;
   String explain;
 
-  MyData({required this.name,required this.gender,required this.age, required  this.phone,required this.status,required this.explain});
+  MyData(
+      {required this.name,
+      required this.gender,
+      required this.age,
+      required this.phone,
+      required this.status,
+      required this.explain});
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'gender':gender,
+      'gender': gender,
       'age': age,
-      'phone':phone,
-      'status':status,
-      'explain':explain
+      'phone': phone,
+      'status': status,
+      'explain': explain
     };
   }
 }
