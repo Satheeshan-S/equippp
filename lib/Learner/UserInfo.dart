@@ -1,4 +1,7 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Learner/MoLogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
@@ -18,7 +21,37 @@ class Uapp extends StatelessWidget {
   }
 }
 
-final controller = GroupButtonController();
+final user = FirebaseAuth.instance.currentUser;
+final userDoc = FirebaseFirestore.instance.collection('Learner');
+/*late final name ;
+
+class MyData {
+  String name;
+  MyData(
+      {required this.name,});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
+}
+Future<void> _saveData2() async {
+  if(user?.phoneNumber != null){
+    name=user?.phoneNumber;
+  }
+  else{
+    name=user?.email;
+  }
+  final myData = MyData(
+    name: name,
+  );
+  await userDoc.doc(name).set(myData.toJson());
+}*/
+
+
+final courseController = GroupButtonController();
+
 
 class InterestField extends StatefulWidget {
   const InterestField({Key? key}) : super(key: key);
@@ -30,14 +63,19 @@ class InterestField extends StatefulWidget {
 class _InterestFieldState extends State<InterestField> {
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
           color: Colors.white,
-          child: InkWell(onTap:(){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MoLoginApp()));
-          },child:Image.asset("lib/images/images.png"),),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MoLoginApp()));
+            },
+            child: Image.asset("lib/images/images.png"),
+          ),
         ),
         const SizedBox(
           height: 15,
@@ -62,6 +100,7 @@ class _InterestFieldState extends State<InterestField> {
         Center(
           child: GroupButton(
             isRadio: false,
+            controller: courseController,
             options: GroupButtonOptions(
                 spacing: 5,
                 buttonHeight: 50,
@@ -99,6 +138,7 @@ class _InterestFieldState extends State<InterestField> {
                 borderRadius: BorderRadius.circular(18.0),
               ))),
               onPressed: () {
+                main();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const statusApp()));
               },
@@ -130,12 +170,15 @@ class statusApp extends StatelessWidget {
   }
 }
 
+
 class status extends StatefulWidget {
   const status({Key? key}) : super(key: key);
 
   @override
   State<status> createState() => _statusState();
 }
+
+List<String> _groupNames = ['Working', 'Student', 'Unemployed'];
 
 class _statusState extends State<status> {
   @override
@@ -174,22 +217,23 @@ class _statusState extends State<status> {
         ),
         Center(
           child: GroupButton(
-            buttons: const ['Working', 'Student', 'Unemployed'],
+            buttons: _groupNames,
             isRadio: false,
-            maxSelected:1 ,
+            maxSelected: 1,
             options: GroupButtonOptions(
-                spacing: 8,
-                selectedTextStyle: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.black87),
-                buttonHeight: 50,
-                buttonWidth: 180,
-                borderRadius: BorderRadius.circular(18),
-                unselectedColor: Colors.grey,
-                selectedColor: Colors.orangeAccent,
-                mainGroupAlignment: MainGroupAlignment.center,
-                crossGroupAlignment: CrossGroupAlignment.center,
-                groupingType: GroupingType.column,
-                direction: Axis.horizontal),
+              spacing: 8,
+              selectedTextStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.black87),
+              buttonHeight: 50,
+              buttonWidth: 180,
+              borderRadius: BorderRadius.circular(18),
+              unselectedColor: Colors.grey,
+              selectedColor: Colors.orangeAccent,
+              mainGroupAlignment: MainGroupAlignment.center,
+              crossGroupAlignment: CrossGroupAlignment.center,
+              groupingType: GroupingType.column,
+              direction: Axis.horizontal,
+            ),
           ),
         ),
         const SizedBox(
@@ -198,7 +242,11 @@ class _statusState extends State<status> {
         Center(
           child: ElevatedButton.icon(
               onPressed: () {
-                null;
+/*
+                _saveData2();
+*/
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
               },
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -212,4 +260,20 @@ class _statusState extends State<status> {
     );
   }
 }
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'User Authenticated',
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+
 
