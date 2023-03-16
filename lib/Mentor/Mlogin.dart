@@ -1,3 +1,4 @@
+import 'package:equippp/Mentor/HomePages/homePage_1.dart';
 import 'package:equippp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -30,6 +31,8 @@ class MLogin extends StatefulWidget {
 }
 
 class _MLoginState extends State<MLogin> {
+  String _textFieldValue = '';
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -71,6 +74,7 @@ class _MLoginState extends State<MLogin> {
               onChanged: (value) {
                 setState(() {
                   emailController.text = value;
+                  _textFieldValue = value;
                 });
               },
               decoration: InputDecoration(
@@ -160,7 +164,11 @@ class _MLoginState extends State<MLogin> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
-                  null;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MHome(name: _textFieldValue,)
+                      ));
                 },
                 child: const Text(
                   'Log In',

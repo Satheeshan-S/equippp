@@ -1,4 +1,6 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:equippp/Admin/admin_1.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../Mentor/ForgetPage.dart';
 import '../main.dart';
@@ -16,6 +18,11 @@ class Admin_Admin_Login extends StatelessWidget {
       ),
     );
   }
+}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const Admin_Admin_Login());
 }
 
 final TextEditingController emailController = TextEditingController();
@@ -158,7 +165,7 @@ class _MAdmin_Admin_LoginState extends State<MAdmin_Admin_Login> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
-                  null;
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const admin_1()));
                 },
                 child: const Text(
                   'Log In',

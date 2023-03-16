@@ -1,29 +1,42 @@
+import 'package:equippp/Mentor/HomePages/EventPage.dart';
 import 'package:flutter/material.dart';
 
 class MHome extends StatelessWidget {
-  const MHome({Key? key}) : super(key: key);
+  final name;
+
+  const MHome({Key? key, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body:MHome_State(),
+        body: MHomeState(
+          name: name,
+        ),
       ),
     );
   }
 }
-class MHome_State extends StatefulWidget {
-  const MHome_State({Key? key}) : super(key: key);
+
+class MHomeState extends StatefulWidget {
+  final name;
+
+  const MHomeState({Key? key, this.name}) : super(key: key);
 
   @override
-  State<MHome_State> createState() => _MHome_StateState();
+  State<MHomeState> createState() => _MHomeStateState();
 }
 
-class _MHome_StateState extends State<MHome_State> {
+class _MHomeStateState extends State<MHomeState> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-
-    );
+    return Center(
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const Event()));
+            },
+            child: const Text('skm df')));
   }
 }

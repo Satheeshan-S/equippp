@@ -1,6 +1,12 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+class User {
+  final String name;
+  final String title;
+  final String imageUrl;
+  User({required this.name, required this.title, required this.imageUrl});
+}
 
 class admin_1 extends StatelessWidget {
   const admin_1({Key? key}) : super(key: key);
@@ -8,6 +14,7 @@ class admin_1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
           child: MLadmin_1(),
@@ -15,11 +22,6 @@ class admin_1 extends StatelessWidget {
       ),
     );
   }
-}
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(admin_1());
 }
 
 class MLadmin_1 extends StatefulWidget {
@@ -73,15 +75,15 @@ class _MLadmin_1State extends State<MLadmin_1> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
                         final usersCollection = FirebaseFirestore.instance.collection('Mentor');
                         final user1DocRef = usersCollection.doc(users[index].name);
-                        user1DocRef.update({'verify': 'true'});
+                        user1DocRef.update({'verify': true});
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: () {
                       },
                     ),
@@ -93,11 +95,4 @@ class _MLadmin_1State extends State<MLadmin_1> {
         },
       );
   }
-}
-
-class User {
-  final String name;
-  final String title;
-  final String imageUrl;
-  User({required this.name, required this.title, required this.imageUrl});
 }

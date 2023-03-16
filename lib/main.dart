@@ -2,7 +2,7 @@ import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'Mentor/Login_1.dart';
+import 'Login_1.dart';
 import 'Provider/auth_provider.dart';
 
 Future<void> main() async {
