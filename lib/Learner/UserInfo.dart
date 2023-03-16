@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Learner/MoLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +21,12 @@ class Uapp extends StatelessWidget {
 }
 
 final user = FirebaseAuth.instance.currentUser;
-final userDoc = FirebaseFirestore.instance.collection('Learner');
+final userDoc_2 = FirebaseFirestore.instance.collection('Learner');
+
+void main() {
+  userDoc_2.doc(user?.email).set({'name': user?.email});
+}
+
 /*late final name ;
 
 class MyData {
@@ -48,10 +52,7 @@ Future<void> _saveData2() async {
   );
   await userDoc.doc(name).set(myData.toJson());
 }*/
-
-
 final courseController = GroupButtonController();
-
 
 class InterestField extends StatefulWidget {
   const InterestField({Key? key}) : super(key: key);
@@ -63,7 +64,6 @@ class InterestField extends StatefulWidget {
 class _InterestFieldState extends State<InterestField> {
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -72,7 +72,7 @@ class _InterestFieldState extends State<InterestField> {
           child: InkWell(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MoLoginApp()));
+                  MaterialPageRoute(builder: (context) => const MoLoginApp()));
             },
             child: Image.asset("lib/images/images.png"),
           ),
@@ -170,7 +170,6 @@ class statusApp extends StatelessWidget {
   }
 }
 
-
 class status extends StatefulWidget {
   const status({Key? key}) : super(key: key);
 
@@ -190,8 +189,8 @@ class _statusState extends State<status> {
           color: Colors.white,
           child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Uapp()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Uapp()));
               },
               child: Image.asset("lib/images/images.png")),
         ),
@@ -242,9 +241,7 @@ class _statusState extends State<status> {
         Center(
           child: ElevatedButton.icon(
               onPressed: () {
-/*
-                _saveData2();
-*/
+                main();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));
               },
@@ -274,6 +271,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
-
