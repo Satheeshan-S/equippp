@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Mentor/HomePages/homePage_1.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +24,112 @@ class Event extends StatefulWidget {
   State<Event> createState() => _EventState();
 }
 
-void main() {
-  runApp(const MEvent());
+final FirebaseFirestore userEventDb = FirebaseFirestore.instance;
+
+Future<void> _saveData() async {
+  final title = titleController.text;
+  final meeting = typeValue;
+  final time = _timeController.text;
+  final date = dateController.text;
+  final des = desController.text;
+  final content1 = content1Controller.text;
+  final content2 = content2Controller.text;
+  final content3 = content3Controller.text;
+  final content4 = content4Controller.text;
+  const verify = false;
+  final myData = UserEvent(
+    title: title,
+    date: date,
+    time: time,
+    Des: des,
+    meeting: meeting,
+    content1: content1,
+    content2: content2,
+    content3: content3,
+    content4: content4,
+    verify: verify,
+  );
+  await userEventDb.collection('Sessions').doc(eventName).set(myData.toJson());
 }
 
+List<String> li = <String>['Education', 'Music', 'Cinematography'];
+String typeValue = li.first;
+TextEditingController titleController = TextEditingController();
 TextEditingController _timeController = TextEditingController();
+TextEditingController dateController = TextEditingController();
+TextEditingController desController = TextEditingController();
+TextEditingController content1Controller = TextEditingController();
+TextEditingController content2Controller = TextEditingController();
+TextEditingController content3Controller = TextEditingController();
+TextEditingController content4Controller = TextEditingController();
+
+class UserEvent {
+  final String title;
+  final String date;
+  final String time;
+  final String Des;
+  final String meeting;
+  final String content1;
+  final String content2;
+  final String content3;
+  final String content4;
+
+  bool verify;
+
+  UserEvent(
+      {required this.title,
+      required this.date,
+      required this.time,
+      required this.Des,
+      required this.meeting,
+      required this.content1,
+      required this.content2,
+      required this.content3,
+      required this.content4,
+      required this.verify});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'date': date,
+      'time': time,
+      'meeting': meeting,
+      'des': Des,
+      'content1': content1,
+      'content2': content2,
+      'content3': content3,
+      'content4': content4,
+      'verify': verify,
+    };
+  }
+}
 
 class _EventState extends State<Event> {
-  late TextEditingController dateController;
-
   @override
   void initState() {
     super.initState();
     dateController = TextEditingController(text: DateTime.now().toString());
+    titleController = TextEditingController();
+    _timeController = TextEditingController();
+    dateController = TextEditingController();
+    desController = TextEditingController();
+    content1Controller = TextEditingController();
+    content2Controller = TextEditingController();
+    content3Controller = TextEditingController();
+    content4Controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    _timeController.dispose();
+    dateController.dispose();
+    desController.dispose();
+    content1Controller.dispose();
+    content2Controller.dispose();
+    content3Controller.dispose();
+    content4Controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,12 +140,17 @@ class _EventState extends State<Event> {
           height: 30,
         ),
         Row(
-          children:  <Widget>[
+          children: <Widget>[
             Align(
               alignment: AlignmentDirectional.topStart,
               child: IconButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const MHome(name: null,)));
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MHome(
+                                name: null,
+                              )));
                 },
                 icon: const Icon(Icons.backspace),
               ),
@@ -67,8 +166,13 @@ class _EventState extends State<Event> {
               child: Align(
                 alignment: AlignmentDirectional.topEnd,
                 child: IconButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const MHome(name: null,)));
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MHome(
+                                  name: null,
+                                )));
                   },
                   icon: const Icon(Icons.cancel),
                 ),
@@ -92,9 +196,14 @@ class _EventState extends State<Event> {
         Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
             child: TextFormField(
+                onChanged: (value) {
+                  setState(() {
+                    titleController.text = value;
+                  });
+                },
                 decoration: const InputDecoration(
-              labelText: 'Title*',
-            ))),
+                  labelText: 'Title*',
+                ))),
         const Padding(
           padding: EdgeInsets.only(left: 25, bottom: 0, top: 5, right: 18),
           child: Align(
@@ -199,6 +308,11 @@ class _EventState extends State<Event> {
         SizedBox(
           width: 320,
           child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                desController.text = value;
+              });
+            },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 45.0,
@@ -206,7 +320,7 @@ class _EventState extends State<Event> {
               fillColor: Colors.grey.withOpacity(0.2),
               filled: true,
               hintText: '',
-              labelText: 'Add some description',
+              labelText: '    Add some description',
               labelStyle: const TextStyle(
                 fontSize: 14,
               ),
@@ -227,6 +341,60 @@ class _EventState extends State<Event> {
         const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
+              padding: EdgeInsets.only(left: 25, bottom: 15),
+              child: Text(
+                'Type of Meeting',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            )),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 18, bottom: 15),
+            child: SizedBox(
+                height: 40,
+                width: 170,
+                child: DropdownButtonFormField(
+                  value: typeValue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      typeValue = newValue!;
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_downward_sharp),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.withOpacity(0.2),
+                    labelText: '',
+                    hintText: 'Education',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: Colors.white), //<-- SEE HERE
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: Colors.white), //<-- SEE HERE
+                    ),
+                  ),
+                  dropdownColor: Colors.white,
+                  items: <String>['Education', 'Music', 'Cinematography']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    );
+                  }).toList(),
+                )),
+          ),
+        ),
+        const Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
               padding: EdgeInsets.only(left: 25, bottom: 7),
               child: Text(
                 'Content',
@@ -237,6 +405,11 @@ class _EventState extends State<Event> {
           height: 45,
           width: 300,
           child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                content1Controller.text = value;
+              });
+            },
             decoration: InputDecoration(
               fillColor: Colors.grey.withOpacity(0.2),
               filled: true,
@@ -263,6 +436,11 @@ class _EventState extends State<Event> {
           height: 45,
           width: 300,
           child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                content2Controller.text = value;
+              });
+            },
             decoration: InputDecoration(
               fillColor: Colors.grey.withOpacity(0.2),
               filled: true,
@@ -289,6 +467,11 @@ class _EventState extends State<Event> {
           height: 45,
           width: 300,
           child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                content3Controller.text = value;
+              });
+            },
             decoration: InputDecoration(
               fillColor: Colors.grey.withOpacity(0.2),
               filled: true,
@@ -315,6 +498,11 @@ class _EventState extends State<Event> {
           height: 45,
           width: 300,
           child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                content4Controller.text = value;
+              });
+            },
             decoration: InputDecoration(
               fillColor: Colors.grey.withOpacity(0.2),
               filled: true,
@@ -337,18 +525,23 @@ class _EventState extends State<Event> {
         const SizedBox(
           height: 12,
         ),
-         SizedBox(
-           width: 300,
-           child: ElevatedButton(
+        SizedBox(
+          width: 300,
+          child: ElevatedButton(
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ))),
+                borderRadius: BorderRadius.circular(25.0),
+              ))),
               onPressed: () {
-                null;
-              }, child: const Text('Continue & Send Invitation')),
-         )
+                _saveData();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MHome(name: null)));
+              },
+              child: Text('Continue & Send Invitation')),
+        )
       ],
     );
   }

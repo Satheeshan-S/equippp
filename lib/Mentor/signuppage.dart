@@ -14,10 +14,12 @@ final FirebaseFirestore _db = FirebaseFirestore.instance;
 late final downloadUrl;
 final ImagePicker _picker = ImagePicker();
 File _image = File('');
-String? get name=>null;
+
+String? get name => null;
+
 Future<String?> _uploadImageToStorage() async {
   try {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = await FirebaseStorage.instance
         .ref()
         .child('Mentor/${nameController.text}/${nameController.text}.jpg');
     final uploadTask = storageRef.putFile(_image);
@@ -41,8 +43,8 @@ Future<void> _saveData() async {
   final explain = explainController.text;
   final description = desController.text;
   final skills = dropdownValue_2;
-  final Url=downloadUrl;
-  const verify =false;
+  final Url = downloadUrl;
+  const verify = false;
   final myData = MyData(
     name: name,
     age: age,
@@ -53,7 +55,7 @@ Future<void> _saveData() async {
     description: description,
     skills: skills,
     Url: Url,
-    verify:verify,
+    verify: verify,
   );
   await _db.collection('Mentor').doc(name).set(myData.toJson());
 }
@@ -86,7 +88,6 @@ TextEditingController explainController = TextEditingController();
 TextEditingController mPhone = TextEditingController();
 TextEditingController ageController = TextEditingController();
 TextEditingController desController = TextEditingController();
-
 
 class _MsignupstateState extends State<Msignupstate> {
   Country selectedCountry = Country(
@@ -424,7 +425,6 @@ class _MsignupstateState extends State<Msignupstate> {
   }
 }
 
-
 class MSignup_2 extends StatelessWidget {
   const MSignup_2({Key? key}) : super(key: key);
 
@@ -452,6 +452,7 @@ class Msignupstate_2 extends StatefulWidget {
 
 class _MsignupstateState_2 extends State<Msignupstate_2> {
   bool _isShow = true;
+
   Widget _buildImagePicker_2() {
     return Column(
       children: [
@@ -483,6 +484,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
       ],
     );
   }
+
   Future getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -491,6 +493,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -642,8 +645,8 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
                         borderRadius: BorderRadius.circular(18.0),
                       ))),
                   onPressed: () {
-                    _saveData();
                     _uploadImageToStorage();
+                    _saveData();
                     showModalBottomSheet<void>(
                       backgroundColor: Colors.deepPurpleAccent,
                       context: context,
@@ -766,7 +769,8 @@ class MyData {
       required this.explain,
       required this.description,
       required this.skills,
-      required this.Url, required  this.verify});
+      required this.Url,
+      required this.verify});
 
   Map<String, dynamic> toJson() {
     return {
@@ -778,8 +782,8 @@ class MyData {
       'explain': explain,
       'description': description,
       'skills': skills,
-      'Url':Url,
-      'verify':verify,
+      'Url': Url,
+      'verify': verify,
     };
   }
 }

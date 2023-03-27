@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Mentor/HomePages/EventPage.dart';
+import 'package:equippp/Mentor/HomePages/profilePage.dart';
 import 'package:flutter/material.dart';
 
+String? eventName = 'jhvbh';
 
 class MHome extends StatelessWidget {
   const MHome({Key? key, required this.name}) : super(key: key);
@@ -25,42 +27,12 @@ class _DemoBottomAppBar extends StatelessWidget {
 
   final name;
 
-  setState() {
-    name_1 = name;
-  }
-
   @override
   Widget build(BuildContext context) {
-    /*DefaultTabController(
-        length: 4,
-        child: Scaffold(
-            appBar: AppBar(
-          actions: [
-            IconButton(
-              tooltip: 'Open navigation menu',
-              icon: const Icon(Icons.home),
-              onPressed: () {},
-            ),
-            IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.calendar_today),
-              onPressed: () {},
-            ),
-            IconButton(
-              tooltip: 'Favorite',
-              icon: const Icon(Icons.message),
-              onPressed: () {},
-            ),
-            IconButton(
-              tooltip: 'Favorite',
-              icon: const Icon(Icons.person),
-              onPressed: () {},
-            ),
-          ],
-        )));
-  */
     return Scaffold(
-      body: HomeBody(name),
+      body: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: SingleChildScrollView(child: HomeBody(name))),
       bottomNavigationBar: BottomAppBar(
         shape: const AutomaticNotchedShape(RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
@@ -87,22 +59,19 @@ class _DemoBottomAppBar extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.person),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MProfile()));
+              },
             ),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      /*  floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),*/
     );
   }
 }
-late final name_1;
-late final imageUrl;
-late final explain;
+
 class HomeBody extends StatefulWidget {
   const HomeBody(
     this.name, {
@@ -116,48 +85,259 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   _HomeBodyState(this.name);
+
+  final CollectionReference userRef =
+      FirebaseFirestore.instance.collection('Sessions');
   final name;
-  Future<void> fetchUserData() async {
-    final DocumentReference userDocRef =
-    FirebaseFirestore.instance.collection('Mentor').doc('Satheeshan');
 
-    final DocumentSnapshot userData = await userDocRef.get();
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      eventName = name;
+    });
+  }
 
-    explain = userData.get('gender');
-    print('$explain');
-  }
-  setstate(){
-    name_1=name;
-  }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('$name'),
-        const CircleAvatar(
-          radius: 30,
-        ),
-        ElevatedButton(onPressed: fetchUserData,child: Text('ckdjcbdjh'))
-      ],
+    return StreamBuilder<QuerySnapshot>(
+      stream: userRef.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+
+        List<User> users = snapshot.data!.docs.map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          return User(
+              title: data['title'],
+              date: data['date'],
+              time: data['time'],
+              Des: data['des']);
+        }).toList();
+
+        return ListView.separated(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: users.length,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => (const MEvent()),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.white),
+                child: SizedBox(
+                  height: 100,
+                  width: 320,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 70.0,
+                        height: 100.0,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.black),
+                          child: Center(
+                              child: Text(
+                            '${users[index].date.substring(0, 2)}  '
+                            ' ${users[index].date.substring(3, 5)}',
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      SizedBox(
+                        width: 130,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text(
+                                      (users[index].title.trimLeft()),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  const Icon(
+                                    Icons.timelapse,
+                                    size: 13,
+                                  ),
+                                  Text(users[index].time),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  const Icon(
+                                    Icons.date_range_outlined,
+                                    size: 13,
+                                  ),
+                                  Text(users[index].date),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            null;
+                          },
+                          child: const Text('Join now'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(
+              height: 10,
+            );
+          },
+        );
+      },
     );
   }
 }
-Future<void> fetchUserData() async {
-    final DocumentReference _db = FirebaseFirestore.instance.collection('Mentor').doc(name_1) as DocumentReference<Object?>;
-    final DocumentSnapshot user= _db.get() as DocumentSnapshot<Object?>;
-    explain=user.get('Url');
-    print('$explain');
-    /*final DocumentReference userDocRef =
-    FirebaseFirestore.instance.collection('Mentor').doc(name_1);
 
-    final DocumentSnapshot userData = await userDocRef.get();
+class User {
+  final String Des;
+  final String date;
+  final String time;
+  final String title;
 
-    if (userData.exists) {
-      explain = userData.get('explain');
-      imageUrl = userData.get('Url');
-      print('$imageUrl');
-    } else {}
-  } catch (e) {}*/
+  User(
+      {required this.date,
+      required this.time,
+      required this.title,
+      required this.Des});
 }
-
+/*
+return ListView.builder(
+scrollDirection: Axis.vertical,
+shrinkWrap: true,
+itemCount: users.length,
+itemBuilder: (BuildContext context, int index) {
+return GestureDetector(
+onTap: () {
+Navigator.push(
+context,
+MaterialPageRoute(
+builder: (context) => (const MEvent()),
+),
+);
+},
+child: Container(
+decoration: const BoxDecoration(color: Colors.white),
+child: SizedBox(
+height: 100,
+width: 320,
+child: Row(
+mainAxisAlignment: MainAxisAlignment.start,
+children: [
+SizedBox(
+width: 70.0,
+height: 100.0,
+child: DecoratedBox(
+decoration: BoxDecoration(
+borderRadius: BorderRadius.circular(15),
+color: Colors.black),
+child: Center(
+child: Text(
+'${users[index].date.substring(0, 2)}  '
+' ${users[index].date.substring(3, 5)}',
+style: const TextStyle(
+fontSize: 15,
+fontWeight: FontWeight.bold,
+color: Colors.white),
+)),
+),
+),
+const SizedBox(
+width: 40,
+),
+SizedBox(
+width: 130,
+child: Padding(
+padding: const EdgeInsets.only(left: 0,right: 20),
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: <Widget>[
+Padding(
+padding: const EdgeInsets.only(bottom: 5),
+child: FittedBox(
+fit: BoxFit.fitWidth,
+child: Text((users[index].title.trimLeft()),style: const TextStyle( fontSize: 15,fontWeight: FontWeight.bold),)),
+),
+Row(
+mainAxisAlignment:MainAxisAlignment.start,
+children: <Widget>[
+const Icon(Icons.timelapse,size: 13,),
+Text(users[index].time),
+],
+),
+const SizedBox(
+height: 5,
+),
+Row(
+mainAxisAlignment:MainAxisAlignment.start,
+children: <Widget>[
+const Icon(Icons.date_range_outlined,size: 13,),
+Text(users[index].date),
+],
+),
+],
+),
+),
+),
+Align(
+alignment: Alignment.bottomRight,
+child: ElevatedButton(
+onPressed: () {
+null;
+},
+child: const Text('Join now'),
+),
+),
+],
+),
+),
+),
+);
+},
+);
+*/
