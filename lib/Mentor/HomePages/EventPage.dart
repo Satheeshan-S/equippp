@@ -1,8 +1,9 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Mentor/HomePages/homePage_1.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-
+final name_e=eventName;
 class MEvent extends StatelessWidget {
   const MEvent({Key? key}) : super(key: key);
 
@@ -26,30 +27,61 @@ class Event extends StatefulWidget {
 
 final FirebaseFirestore userEventDb = FirebaseFirestore.instance;
 
+Future<bool> checkRandomNumber(int randomNumber) async {
+  final QuerySnapshot<Map<String, dynamic>> result = await FirebaseFirestore
+      .instance
+      .collection('Session')
+      .where('id', isEqualTo: randomNumber)
+      .get();
+  if (result.docs.isEmpty) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<bool> israndom() async {
+  var random = Random();
+  var randomNumber = random.nextInt(1000);
+  id = randomNumber;
+  if (await checkRandomNumber(randomNumber)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+int id = 23;
+
 Future<void> _saveData() async {
-  final title = titleController.text;
-  final meeting = typeValue;
-  final time = _timeController.text;
-  final date = dateController.text;
-  final des = desController.text;
-  final content1 = content1Controller.text;
-  final content2 = content2Controller.text;
-  final content3 = content3Controller.text;
-  final content4 = content4Controller.text;
-  const verify = false;
-  final myData = UserEvent(
-    title: title,
-    date: date,
-    time: time,
-    Des: des,
-    meeting: meeting,
-    content1: content1,
-    content2: content2,
-    content3: content3,
-    content4: content4,
-    verify: verify,
-  );
-  await userEventDb.collection('Sessions').doc(eventName).set(myData.toJson());
+  if (await israndom()) {
+    final id_2 = id;
+    final name_9=name_e;
+    final title = titleController.text;
+    final meeting = typeValue;
+    final time = _timeController.text;
+    final date = dateController.text;
+    final des = desController.text;
+    final content1 = content1Controller.text;
+    final content2 = content2Controller.text;
+    final content3 = content3Controller.text;
+    final content4 = content4Controller.text;
+    const verify = false;
+    final myData = UserEvent(
+        name: name_9,
+        title: title,
+        date: date,
+        time: time,
+        Des: des,
+        meeting: meeting,
+        content1: content1,
+        content2: content2,
+        content3: content3,
+        content4: content4,
+        verify: verify,
+        id_1: id_2);
+    await userEventDb.collection('Sessions').doc().set(myData.toJson());
+  } else {}
 }
 
 List<String> li = <String>['Education', 'Music', 'Cinematography'];
@@ -64,6 +96,7 @@ TextEditingController content3Controller = TextEditingController();
 TextEditingController content4Controller = TextEditingController();
 
 class UserEvent {
+  final String name;
   final String title;
   final String date;
   final String time;
@@ -73,11 +106,13 @@ class UserEvent {
   final String content2;
   final String content3;
   final String content4;
-
+  final id_1;
   bool verify;
 
   UserEvent(
-      {required this.title,
+      {required this.name,
+        required this.id_1,
+      required this.title,
       required this.date,
       required this.time,
       required this.Des,
@@ -90,6 +125,8 @@ class UserEvent {
 
   Map<String, dynamic> toJson() {
     return {
+      'name':name,
+      'id': id_1,
       'title': title,
       'date': date,
       'time': time,
@@ -148,8 +185,8 @@ class _EventState extends State<Event> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MHome(
-                                name: null,
+                          builder: (context) =>  MHome(
+                                name: name_e,
                               )));
                 },
                 icon: const Icon(Icons.backspace),
@@ -170,8 +207,8 @@ class _EventState extends State<Event> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MHome(
-                                  name: null,
+                            builder: (context) =>  MHome(
+                                  name: name_e,
                                 )));
                   },
                   icon: const Icon(Icons.cancel),
@@ -538,7 +575,7 @@ class _EventState extends State<Event> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MHome(name: null)));
+                        builder: (context) =>  MHome(name: name_e)));
               },
               child: Text('Continue & Send Invitation')),
         )

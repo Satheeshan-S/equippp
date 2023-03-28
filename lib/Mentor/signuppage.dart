@@ -11,28 +11,13 @@ List<String> list = <String>['Male', 'Female', 'Others'];
 String dropdownValue = list.first;
 String dropdownValue_2 = 'select';
 final FirebaseFirestore _db = FirebaseFirestore.instance;
+
 late final downloadUrl;
 final ImagePicker _picker = ImagePicker();
 File _image = File('');
-
+bool _isShow = true;
 String? get name => null;
 
-Future<String?> _uploadImageToStorage() async {
-  try {
-    final storageRef = await FirebaseStorage.instance
-        .ref()
-        .child('Mentor/${nameController.text}/${nameController.text}.jpg');
-    final uploadTask = storageRef.putFile(_image);
-    final snapshot = await uploadTask
-        .whenComplete(() => print('Image uploaded to Firebase.'));
-
-    downloadUrl = await snapshot.ref.getDownloadURL();
-    return downloadUrl;
-  } catch (e) {
-    print('Error uploading image to Firebase: $e');
-    return null;
-  }
-}
 
 Future<void> _saveData() async {
   final name = nameController.text;
@@ -57,7 +42,7 @@ Future<void> _saveData() async {
     Url: Url,
     verify: verify,
   );
-  await _db.collection('Mentor').doc(name).set(myData.toJson());
+  await _db.collection('Mentor').doc().set(myData.toJson());
 }
 
 class MSignup extends StatelessWidget {
@@ -409,7 +394,17 @@ class _MsignupstateState extends State<Msignupstate> {
                           RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ))),
-                  onPressed: () {
+                  onPressed: ()  async {
+                    final pickedFile =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    if (pickedFile != null) {
+                      setState(()  {
+                        _image = File(pickedFile.path);
+                      });
+                    }
+                    setState(() {
+                      _isShow = false;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -424,10 +419,25 @@ class _MsignupstateState extends State<Msignupstate> {
     );
   }
 }
+Future<String?> _uploadImageToStorage() async {
+  try {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('Mentor/${nameController.text}/${nameController.text}.jpg');
+    final uploadTask = storageRef.putFile(_image);
+    final snapshot = await uploadTask
+        .whenComplete(() => print('Image uploaded to Firebase.'));
+    downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  } catch (e) {
+    print('Error uploading image to Firebase: $e');
+    return null;
+  }
+}
+
 
 class MSignup_2 extends StatelessWidget {
   const MSignup_2({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -451,15 +461,20 @@ class Msignupstate_2 extends StatefulWidget {
 }
 
 class _MsignupstateState_2 extends State<Msignupstate_2> {
-  bool _isShow = true;
-
+  @override
+  void initState() {
+    super.initState();
+    _uploadImageToStorage();
+  }
   Widget _buildImagePicker_2() {
     return Column(
       children: [
+/*
         Visibility(
           visible: _isShow,
           child: ElevatedButton(
             onPressed: () async {
+              _uploadImageToStorage();
               final pickedFile =
                   await _picker.pickImage(source: ImageSource.gallery);
               if (pickedFile != null) {
@@ -474,6 +489,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
             child: const Text('Pick an image'),
           ),
         ),
+*/
         const SizedBox(height: 16.0),
         if (_image.path.isNotEmpty)
           ClipOval(
@@ -485,6 +501,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
     );
   }
 
+/*
   Future getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -493,6 +510,7 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
       }
     });
   }
+*/
 
   @override
   Widget build(BuildContext context) {

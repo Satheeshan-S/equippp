@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(hhhhhh());
+  runApp(const hhhhhh());
 }
 
 class hhhhhh extends StatelessWidget {
@@ -13,9 +13,12 @@ class hhhhhh extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: SizedBox(
+        appBar: AppBar(
+          title: Text('djchbdjh'),
+        ),
+        body: const SizedBox(
           height: 67,
           child: MyWidget(),
         ),

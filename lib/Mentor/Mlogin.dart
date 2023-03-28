@@ -2,8 +2,10 @@ import 'package:equippp/Mentor/HomePages/homePage_1.dart';
 import 'package:equippp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-
+import '../Admin/AHome.dart';
 import 'ForgetPage.dart';
+
+String a = 'admin';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class Login extends StatelessWidget {
 }
 
 final TextEditingController emailController = TextEditingController();
+TextEditingController passController = TextEditingController();
 final bool isValid = EmailValidator.validate(emailController as String);
 
 class MLogin extends StatefulWidget {
@@ -116,6 +119,11 @@ class _MLoginState extends State<MLogin> {
             height: 60,
             width: 320,
             child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  passController.text = value;
+                });
+              },
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
@@ -164,11 +172,18 @@ class _MLoginState extends State<MLogin> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MHome(name: _textFieldValue,)
-                      ));
+                  if ((emailController.text == a) &
+                      (passController.text == 'admin')) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const ad()));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MHome(
+                                  name: _textFieldValue,
+                                )));
+                  }
                 },
                 child: const Text(
                   'Log In',
