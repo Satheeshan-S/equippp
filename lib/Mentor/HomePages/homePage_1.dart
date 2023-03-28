@@ -107,8 +107,16 @@ class _HomeBodyState extends State<HomeBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Align(
+          alignment: Alignment.topLeft,
+          child: ClipOval(
+            child: SizedBox.fromSize(
+                size: const Size.fromRadius(20), child: Image.network('')),
+          ),
+        ),
+        const SizedBox(height: 10),
         SizedBox(
-          height: 150,
+          height: 100,
           width: 320,
           child: hori_1(),
         ),
@@ -138,7 +146,6 @@ Widget get() {
       List<User> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return User(
-            Url: data['Url'],
             title: data['title'],
             date: data['date'],
             time: data['time'],
@@ -275,7 +282,6 @@ Widget hori_1() {
       List<User> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return User(
-          Url: data['Url'],
           title: data['title'],
           date: data['date'],
           time: data['time'],
@@ -286,7 +292,7 @@ Widget hori_1() {
       return Column(mainAxisAlignment: MainAxisAlignment.start, children: <
           Widget>[
         SizedBox(
-          height: 150,
+          height: 100,
           width: 330,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
@@ -297,12 +303,6 @@ Widget hori_1() {
               return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ClipOval(
-                      child: SizedBox.fromSize(
-                          size: const Size.fromRadius(20),
-                          child: Image.network('')),
-                    ),
-                    const SizedBox(height: 10),
                     SingleChildScrollView(
                         child: SizedBox(
                       height: 100,
@@ -567,11 +567,9 @@ class User {
   final String date;
   final String time;
   final String title;
-  final Url;
 
   User(
-      {required this.Url,
-      required this.date,
+      {required this.date,
       required this.time,
       required this.title,
       required this.Des});
