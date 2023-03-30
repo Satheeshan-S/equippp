@@ -1,3 +1,4 @@
+import 'package:equippp/Admin/detailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -122,66 +123,81 @@ class _MLadmin_1State extends State<MLadmin_1> {
             shrinkWrap: true,
             itemCount: users.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: SizedBox(
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: NetworkImage(users[index].Url),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (detail(
+                        name: users[index].name,
+                        gender: users[index].gender,
+                        age: users[index].age,
+                        phone: users[index].phone,
+                        status: users[index].status,
+                        explain: users[index].explain,
+                        description: users[index].description,
+                        skills: users[index].skills,
+                        Url: users[index].Url,
+                      )),
+                    ),
+                  );
+                },
+                child: ListTile(
+                  leading: SizedBox(
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(users[index].Url),
+                    ),
                   ),
-                ),
-                title: Text(users[index].name),
-                subtitle: Text(users[index].explain),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        final usersCollection =
-                            FirebaseFirestore.instance.collection('Mentor');
-                        final user1DocRef =
-                            usersCollection.doc(users[index].name);
-                        user1DocRef.update({'verify': true});
-                        Future<void> _saveData() async {
-                          final name = users[index].name;
-                          final gender = users[index].gender;
-                          final age = users[index].age;
-                          final phone = users[index].phone;
-                          final status = users[index].status;
-                          final explain = users[index].explain;
-                          final description = users[index].description;
-                          final skills = users[index].skills;
-                          final Url = users[index].Url;
-                          final myData = User(
-                            name: name,
-                            age: age,
-                            gender: gender,
-                            phone: phone,
-                            status: status,
-                            explain: explain,
-                            description: description,
-                            skills: skills,
-                            Url: Url,
-                          );
+                  title: Text(users[index].name),
+                  subtitle: Text(users[index].explain),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          final usersCollection =
+                              FirebaseFirestore.instance.collection('Mentor');
+                          final user1DocRef =
+                              usersCollection.doc(users[index].name);
+                          user1DocRef.update({'verify': true});
+                          Future<void> _saveData() async {
+                            final name = users[index].name;
+                            final gender = users[index].gender;
+                            final age = users[index].age;
+                            final phone = users[index].phone;
+                            final status = users[index].status;
+                            final explain = users[index].explain;
+                            final description = users[index].description;
+                            final skills = users[index].skills;
+                            final Url = users[index].Url;
+                            final myData = User(
+                              name: name,
+                              age: age,
+                              gender: gender,
+                              phone: phone,
+                              status: status,
+                              explain: explain,
+                              description: description,
+                              skills: skills,
+                              Url: Url,
+                            );
 
-                          await FirebaseFirestore.instance
-                              .collection('loggedMentor')
-                              .doc(name)
-                              .set(myData.toJson());
-                          await FirebaseFirestore.instance
-                              .collection('Mentor')
-                              .doc(name)
-                              .set(myData.toJson());
-                        }
+                            await FirebaseFirestore.instance
+                                .collection('loggedMentor')
+                                .doc()
+                                .set(myData.toJson());}
 
-                        _saveData();
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {},
-                    ),
-                  ],
+                          _saveData();
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
