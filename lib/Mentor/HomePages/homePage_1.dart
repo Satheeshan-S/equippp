@@ -88,7 +88,9 @@ class HomeBody extends StatefulWidget {
   @override
   State<HomeBody> createState() => _HomeBodyState(name);
 }
+
 String a = 'ff';
+
 class _HomeBodyState extends State<HomeBody> {
   _HomeBodyState(this.name);
 
@@ -98,7 +100,7 @@ class _HomeBodyState extends State<HomeBody> {
 
   String out() {
     final db = FirebaseFirestore.instance;
-    db.collection("Mentor").where("name", isEqualTo: eventName).get().then(
+    db.collection("Mentor").where("email", isEqualTo: eventName).get().then(
       (querySnapshot) {
         print("Successfully completed");
         for (var docSnapshot in querySnapshot.docs) {
@@ -126,7 +128,7 @@ class _HomeBodyState extends State<HomeBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         GestureDetector(
-          onTap: (){
+          onTap: () {
             out();
           },
           child: Align(
@@ -139,7 +141,8 @@ class _HomeBodyState extends State<HomeBody> {
         ),
         const SizedBox(height: 30),
         const Align(
-            alignment: Alignment.topLeft, child: Text('Today${''}s  ' 'schedule')),
+            alignment: Alignment.topLeft,
+            child: Text('Today${''}s  ' 'schedule')),
         const SizedBox(height: 10),
         SizedBox(
           height: 100,
@@ -177,7 +180,7 @@ Widget get() {
       List<User> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return User(
-          name_d: data['name'],
+          name_d: data['email'],
           title: data['title'],
           date: data['date'],
           time: data['time'],
@@ -318,7 +321,7 @@ Widget hori_1() {
   final CollectionReference userRef =
       FirebaseFirestore.instance.collection('Sessions');
   return StreamBuilder<QuerySnapshot>(
-    stream: userRef.where('name', isEqualTo: eventName).snapshots(),
+    stream: userRef.where('email', isEqualTo: eventName).snapshots(),
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
@@ -331,7 +334,7 @@ Widget hori_1() {
       List<User> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return User(
-          name_d: data['name'],
+          name_d: data['email'],
           title: data['title'],
           date: data['date'],
           time: data['time'],
@@ -631,7 +634,7 @@ class User {
 
   User(
       {required this.name_d,
-        required this.meeting,
+      required this.meeting,
       required this.content1,
       required this.content2,
       required this.content3,

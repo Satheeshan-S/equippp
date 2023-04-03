@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const hhhhhh());
+  runApp(hhhhhh());
 }
 
 class hhhhhh extends StatelessWidget {
@@ -18,7 +18,7 @@ class hhhhhh extends StatelessWidget {
         appBar: AppBar(
           title: Text('djchbdjh'),
         ),
-        body: const SizedBox(
+        body: SizedBox(
           height: 67,
           child: MyWidget(),
         ),
@@ -26,47 +26,34 @@ class hhhhhh extends StatelessWidget {
     );
   }
 }
+String a='jjj';
+List<dynamic> g=[];
+String out() {
+  final db = FirebaseFirestore.instance;
+  db.collection("Mentor").where("name", isEqualTo: 'ddhd').get().then(
+        (querySnapshot) {
+      print("Successfully completed");
+      for (var docSnapshot in querySnapshot.docs) {
+        print(docSnapshot.data());
+        g = docSnapshot.get('age');
+        print(g);
+      }
+    },
+    onError: (e) => print("Error completing: $e"),
+  );
+  return a;
+}
+
 
 class MyWidget extends StatelessWidget {
   const MyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('Mentor')
-          .doc('Vignesh')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
-        }
-        Object? objectValue = snapshot.data?.data();
-        if (objectValue != null) {
-          Map<String, dynamic> mapValue =
-              Map<String, dynamic>.from(objectValue as Map);
-          final fieldValue = mapValue['name'];
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 40,
-              ),
-              Text('fiel$fieldValue'),
-            ],
-          );
-        } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              SizedBox(
-                height: 40,
-              ),
-              Text('tbb'),
-            ],
-          );
-        }
-      },
-    );
+    return ElevatedButton(
+        onPressed: () {
+          out();
+        },
+        child: Text('vhbfub'));
   }
 }

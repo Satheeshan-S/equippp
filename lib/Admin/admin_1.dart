@@ -6,16 +6,19 @@ import 'AHome.dart';
 
 class User {
   String name;
+  String email;
   String gender;
   int age;
   int phone;
   String status;
   String explain;
   String description;
-  String skills;
   String Url;
+  List<dynamic> skills;
 
   User({
+    required this.skills,
+    required this.email,
     required this.name,
     required this.gender,
     required this.age,
@@ -23,12 +26,13 @@ class User {
     required this.status,
     required this.explain,
     required this.description,
-    required this.skills,
     required this.Url,
   });
 
   Map<String, dynamic> toJson() {
     return {
+      'skills':skills,
+      'email':email,
       'name': name,
       'gender': gender,
       'age': age,
@@ -36,7 +40,6 @@ class User {
       'status': status,
       'explain': explain,
       'description': description,
-      'skills': skills,
       'Url': Url,
     };
   }
@@ -95,6 +98,8 @@ class _MLadmin_1State extends State<MLadmin_1> {
         List<User> users = snapshot.data!.docs.map((doc) {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           return User(
+            skills: data['skills'],
+            email: data['email'],
             name: data['name'],
             gender: data['gender'],
             age: data['age'],
@@ -102,22 +107,11 @@ class _MLadmin_1State extends State<MLadmin_1> {
             status: data['status'],
             explain: data['explain'],
             description: data['description'],
-            skills: data['skills'],
             Url: data['Url'],
           );
         }).toList();
 
         return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          /* Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ad()));
-              },
-              icon: const Icon(Icons.backspace),
-            ),
-          ),*/
           ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -129,6 +123,7 @@ class _MLadmin_1State extends State<MLadmin_1> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => (detail(
+                        email:users[index].email,
                         name: users[index].name,
                         gender: users[index].gender,
                         age: users[index].age,
@@ -136,7 +131,6 @@ class _MLadmin_1State extends State<MLadmin_1> {
                         status: users[index].status,
                         explain: users[index].explain,
                         description: users[index].description,
-                        skills: users[index].skills,
                         Url: users[index].Url,
                       )),
                     ),
@@ -159,10 +153,18 @@ class _MLadmin_1State extends State<MLadmin_1> {
                         onPressed: () {
                           final usersCollection =
                               FirebaseFirestore.instance.collection('Mentor');
-                          final user1DocRef =
-                              usersCollection.doc(users[index].name);
-                          user1DocRef.update({'verify': true});
+                          final user1DocRef = usersCollection.where("name",
+                              isEqualTo: users[index].name);
+                          user1DocRef.get().then(
+                            (querySnapshot) {
+                              print("Successfully completed");
+                              for (var docSnapshot in querySnapshot.docs) {
+                                docSnapshot.reference.update({'verify': true});
+                              }
+                            },
+                          );
                           Future<void> _saveData() async {
+                            final skills=users[index].skills;
                             final name = users[index].name;
                             final gender = users[index].gender;
                             final age = users[index].age;
@@ -170,9 +172,11 @@ class _MLadmin_1State extends State<MLadmin_1> {
                             final status = users[index].status;
                             final explain = users[index].explain;
                             final description = users[index].description;
-                            final skills = users[index].skills;
                             final Url = users[index].Url;
+                            final email=users[index].email;
                             final myData = User(
+                              skills: skills,
+                              email: email,
                               name: name,
                               age: age,
                               gender: gender,
@@ -180,14 +184,14 @@ class _MLadmin_1State extends State<MLadmin_1> {
                               status: status,
                               explain: explain,
                               description: description,
-                              skills: skills,
                               Url: Url,
                             );
 
                             await FirebaseFirestore.instance
                                 .collection('loggedMentor')
                                 .doc()
-                                .set(myData.toJson());}
+                                .set(myData.toJson());
+                          }
 
                           _saveData();
                         },

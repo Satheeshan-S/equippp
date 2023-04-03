@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Mentor/HomePages/homePage_1.dart';
 import 'package:flutter/material.dart';
-String a1='nn';
+
+String a1 = 'nn';
+
 class SDetails extends StatelessWidget {
+
   const SDetails(
       {Key? key,
       required this.name,
@@ -26,18 +29,22 @@ class SDetails extends StatelessWidget {
   final String content2;
   final String content3;
   final String content4;
+
   String out_1() {
     final db = FirebaseFirestore.instance;
-    db.collection("Mentor").where("name", isEqualTo: name).get().then(
-          (querySnapshot) {
+    db.collection("Mentor").where("email", isEqualTo: name).get().then(
+      (querySnapshot) {
         for (var docSnapshot in querySnapshot.docs) {
-          a1= docSnapshot.get('Url');
-          print( docSnapshot.get('age'));
+          a1 = docSnapshot.get('Url');
+          print(a1);
         }
       },
       onError: (e) => print("Error completing: $e"),
     );
     return a1;
+  }
+  void init(){
+    out_1();
   }
 
   @override
@@ -49,7 +56,9 @@ class SDetails extends StatelessWidget {
           leading: IconButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MHome(name: eventName)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MHome(name: eventName)));
             },
             icon: const Icon(Icons.arrow_circle_left),
           ),
@@ -58,18 +67,18 @@ class SDetails extends StatelessWidget {
         body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-               GestureDetector(
-                 onTap: (){
-                   out_1();
-                 },
-                 child: Center(
+              GestureDetector(
+                onTap: () {
+                  out_1();
+                },
+                child: Center(
                   child: CircleAvatar(
                     radius: 50,
                     backgroundImage: NetworkImage(a1),
                   ),
+                ),
               ),
-               ),
-              Text('Name : $name'),
+              Text('Email : $name'),
               Text('Title : $title'),
               Text('Date : $date'),
               Text('Time : $time'),

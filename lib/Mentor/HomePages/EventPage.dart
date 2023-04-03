@@ -68,7 +68,7 @@ Future<void> _saveData() async {
     final content4 = content4Controller.text;
     const verify = false;
     final myData = UserEvent(
-        name: name_9,
+        email: name_9,
         title: title,
         date: date,
         time: time,
@@ -96,7 +96,7 @@ TextEditingController content3Controller = TextEditingController();
 TextEditingController content4Controller = TextEditingController();
 
 class UserEvent {
-  final String name;
+  final String email;
   final String title;
   final String date;
   final String time;
@@ -110,7 +110,7 @@ class UserEvent {
   bool verify;
 
   UserEvent(
-      {required this.name,
+      {required this.email,
         required this.id_1,
       required this.title,
       required this.date,
@@ -125,7 +125,7 @@ class UserEvent {
 
   Map<String, dynamic> toJson() {
     return {
-      'name':name,
+      'email':email,
       'id': id_1,
       'title': title,
       'date': date,

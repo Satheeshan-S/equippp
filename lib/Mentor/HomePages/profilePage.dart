@@ -1,20 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'homePage_1.dart';
 
 TextEditingController mPhoneP = TextEditingController();
 
-
-/*
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MProfile());
 }
-*/
-
 
 class MProfile extends StatelessWidget {
   final name_p;
@@ -52,6 +49,7 @@ class _ProfileState extends State<Profile> {
     displayNameNoCountryCode: 'IN',
     e164Key: '',
   );
+
   /*@override
   Widget build(BuildContext context) {
 
@@ -287,7 +285,7 @@ class _ProfileState extends State<Profile> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SingleChildScrollView(child: SizedBox(height: 1400, child: get_1()))
+        SingleChildScrollView(child: SizedBox(height: 1400, child: get_1())),
       ],
     );
   }
@@ -297,7 +295,7 @@ Widget get_1() {
   final CollectionReference userRef =
       FirebaseFirestore.instance.collection('Mentor');
   return StreamBuilder<QuerySnapshot>(
-    stream: userRef.where('name', isEqualTo: eventName).snapshots(),
+    stream: userRef.where('email', isEqualTo: eventName).snapshots(),
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
@@ -310,6 +308,7 @@ Widget get_1() {
       List<ProfileU> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return ProfileU(
+          skills: data['skills'],
           name: data['name'],
           gender: data['gender'],
           age: data['age'],
@@ -317,7 +316,6 @@ Widget get_1() {
           status: data['status'],
           explain: data['explain'],
           description: data['description'],
-          skills: data['skills'],
           Url: data['Url'],
         );
       }).toList();
@@ -330,7 +328,7 @@ Widget get_1() {
           return Container(
               decoration: const BoxDecoration(color: Colors.white),
               child: SizedBox(
-                height: 600,
+                height: 800,
                 width: 320,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -347,7 +345,7 @@ Widget get_1() {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>  MHome(
+                                        builder: (context) => MHome(
                                               name: eventName,
                                             )));
                               },
@@ -414,17 +412,14 @@ Widget get_1() {
                         children: <Widget>[
                           Align(
                             alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: SizedBox(
-                                height: 20,
-                                width: 150,
-                                child: Text(
-                                  users[index].skills,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.grey.shade50),
-                                ),
-                              ),
+                            child: Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: users[index].skills.map((tag) {
+                                return InputChip(
+                                  label: Text(tag),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ],
@@ -575,18 +570,18 @@ class ProfileU {
   final String status;
   final String explain;
   final String description;
-  final String skills;
   final String Url;
+  List<dynamic> skills;
 
   ProfileU({
     required this.name,
+    required this.skills,
     required this.gender,
     required this.age,
     required this.phone,
     required this.status,
     required this.explain,
     required this.description,
-    required this.skills,
     required this.Url,
   });
 }
