@@ -217,7 +217,7 @@ Widget get() {
   final CollectionReference userRef =
       FirebaseFirestore.instance.collection('Sessions');
   return StreamBuilder<QuerySnapshot>(
-    stream: userRef.snapshots(),
+    stream: userRef.where('email', isNotEqualTo: eventName).snapshots(),
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
