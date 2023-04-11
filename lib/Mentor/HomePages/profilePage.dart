@@ -424,6 +424,26 @@ Widget get_1() {
                           ),
                         ],
                       ),
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                            padding: EdgeInsets.all(7),
+                            child: Text('Contact',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(7),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                            ), //
+                            child: Text('${users[index].phone}'),
+                          ),
+                        ),
+                      )
                     ]),
               ));
         },
