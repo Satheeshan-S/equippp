@@ -23,9 +23,6 @@ class Uapp extends StatelessWidget {
 final user = FirebaseAuth.instance.currentUser;
 final userDoc_2 = FirebaseFirestore.instance.collection('Learner');
 
-void main() {
-  userDoc_2.doc(user?.email).set({'name': user?.email});
-}
 
 /*late final name ;
 

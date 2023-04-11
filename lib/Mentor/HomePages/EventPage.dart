@@ -66,6 +66,7 @@ Future<void> _saveData() async {
     final content2 = content2Controller.text;
     final content3 = content3Controller.text;
     final content4 = content4Controller.text;
+    final link=linkController.text;
     const verify = false;
     final myData = UserEvent(
         email: name_9,
@@ -78,6 +79,7 @@ Future<void> _saveData() async {
         content2: content2,
         content3: content3,
         content4: content4,
+        link: link,
         verify: verify,
         id_1: id_2);
     await userEventDb.collection('Sessions').doc().set(myData.toJson());
@@ -94,6 +96,8 @@ TextEditingController content1Controller = TextEditingController();
 TextEditingController content2Controller = TextEditingController();
 TextEditingController content3Controller = TextEditingController();
 TextEditingController content4Controller = TextEditingController();
+TextEditingController linkController = TextEditingController();
+
 
 class UserEvent {
   final String email;
@@ -106,11 +110,13 @@ class UserEvent {
   final String content2;
   final String content3;
   final String content4;
+  final link;
   final id_1;
   bool verify;
 
   UserEvent(
       {required this.email,
+        required this.link,
         required this.id_1,
       required this.title,
       required this.date,
@@ -125,6 +131,7 @@ class UserEvent {
 
   Map<String, dynamic> toJson() {
     return {
+      'link':link,
       'email':email,
       'id': id_1,
       'title': title,
@@ -154,10 +161,12 @@ class _EventState extends State<Event> {
     content2Controller = TextEditingController();
     content3Controller = TextEditingController();
     content4Controller = TextEditingController();
+    linkController=TextEditingController();
   }
 
   @override
   void dispose() {
+    linkController.dispose();
     titleController.dispose();
     _timeController.dispose();
     dateController.dispose();
@@ -400,8 +409,6 @@ class _EventState extends State<Event> {
                   },
                   icon: const Icon(Icons.arrow_downward_sharp),
                   decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey.withOpacity(0.2),
                     labelText: '',
                     hintText: 'Education',
                     enabledBorder: OutlineInputBorder(
@@ -562,6 +569,46 @@ class _EventState extends State<Event> {
         const SizedBox(
           height: 12,
         ),
+        const Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 11, bottom: 7),
+              child: Text(
+                'Attach the Zoom Meet or Google Meet  link here',
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13),
+              ),
+            )),
+        SizedBox(
+          height: 45,
+          width: 300,
+          child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                linkController.text = value;
+              });
+            },
+            decoration: InputDecoration(
+              fillColor: Colors.grey.withOpacity(0.2),
+              filled: true,
+              hintText: '',
+              labelText: 'Enter here',
+              labelStyle: const TextStyle(
+                fontSize: 14,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: const BorderSide(color: Colors.white),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: const BorderSide(color: Colors.black12),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
         SizedBox(
           width: 300,
           child: ElevatedButton(
@@ -577,7 +624,7 @@ class _EventState extends State<Event> {
                     MaterialPageRoute(
                         builder: (context) =>  MHome(name: name_e)));
               },
-              child: Text('Continue & Send Invitation')),
+              child: const Text('Continue & Send Invitation')),
         )
       ],
     );

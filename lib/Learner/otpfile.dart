@@ -127,6 +127,8 @@ class _OTPPageState extends State<OTPPage> {
                               onPressed: () {
                                 if (otpCode != null) {
                                   verifyOtp(context, otpCode!);
+                                  showSnackBar(context, 'OTP verified');
+
                                 } else {
                                   showSnackBar(context, 'Enter 6-Digit code');
                                 }

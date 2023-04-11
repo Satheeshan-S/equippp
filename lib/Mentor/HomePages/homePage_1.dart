@@ -16,61 +16,102 @@ class MHome extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: BottomAppBar(
-          child: _DemoBottomAppBar(name),
-        ),
+        body: BottomAppBarExample(name),
       ),
     );
   }
 }
 
-class _DemoBottomAppBar extends StatelessWidget {
-  const _DemoBottomAppBar(this.name);
+class BottomAppBarExample extends StatefulWidget {
+  BottomAppBarExample(this.name);
 
   final name;
 
   @override
+  _DemoBottomAppBar createState() => _DemoBottomAppBar(name);
+}
+
+class _DemoBottomAppBar extends State<BottomAppBarExample> {
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      eventName = name;
+    });
+  }
+
+  _DemoBottomAppBar(this.name);
+
+  final name;
+  int _selectedIndex = 0;
+
+  static final List<Widget> _pages = <Widget>[
+    Container(child: SingleChildScrollView(child: HomeBody(eventName))),
+    MEvent(),
+    MEvent(),
+    MProfile(
+      name_p: eventName,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: SingleChildScrollView(child: HomeBody(name))),
+      body: Align(
+          alignment: Alignment.topCenter,
+          child: _pages.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomAppBar(
-        shape: const AutomaticNotchedShape(RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
+        height: 100,
+        color: Colors.transparent,
+        elevation: 0,
+        child: SizedBox(
+          height: 100,
+          width: 250,
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(28),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                      icon: const Icon(Icons.home),
+                      onPressed: () {
+                        _onItemTapped(0);
+                      }),
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MEvent()));
+/*
+                      _onItemTapped(1);
+*/
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.notification_add),
+                    onPressed: () => _onItemTapped(2),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    onPressed: () => _onItemTapped(3),
+                  ),
+                ],
+              ),
+            ),
           ),
-        )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.calendar_today),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MEvent()));
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.notification_add),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MProfile(
-                              name_p: name,
-                            )));
-              },
-            ),
-          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -124,41 +165,50 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            out();
-          },
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(a),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(
+            height: 40,
+          ),
+          GestureDetector(
+            onTap: () {
+              out();
+            },
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(a),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 30),
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text('Today${''}s  ' 'schedule')),
-        const SizedBox(height: 10),
-        SizedBox(
-          height: 100,
-          width: 320,
-          child: hori_1(),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const Align(
-            alignment: Alignment.topLeft, child: Text('Upcoming Events')),
-        const SizedBox(
-          height: 10,
-        ),
-        get(),
-      ],
+          const SizedBox(height: 30),
+          const Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Align(
+                alignment: Alignment.topLeft, child: Text('Today Schedule')),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 100,
+            width: 330,
+            child: hori_1(),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Align(
+                alignment: Alignment.topLeft, child: Text('Upcoming Events')),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 18, right: 13),
+              child: get()),
+        ],
+      ),
     );
   }
 }
@@ -180,6 +230,7 @@ Widget get() {
       List<User> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return User(
+          link: data['link'],
           name_d: data['email'],
           title: data['title'],
           date: data['date'],
@@ -194,6 +245,7 @@ Widget get() {
       }).toList();
 
       return ListView.separated(
+        scrollDirection: Axis.vertical,
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         itemCount: users.length,
@@ -204,6 +256,7 @@ Widget get() {
                 context,
                 MaterialPageRoute(
                   builder: (context) => (SDetails(
+                    link: users[index].link,
                     name: users[index].name_d,
                     title: users[index].title,
                     date: users[index].date,
@@ -233,15 +286,29 @@ Widget get() {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.black),
-                        child: Center(
-                            child: Text(
-                          '${users[index].date.substring(0, 2)} '
-                          ' ${users[index].date.substring(3, 5)}',
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        )),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text(
+                                date(users[index].date.substring(3, 5)),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              )),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Center(
+                                  child: Text(
+                                '${users[index].date.substring(0, 2)} ' '',
+                                style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              )),
+                            ]),
                       ),
                     ),
                     const SizedBox(
@@ -334,6 +401,7 @@ Widget hori_1() {
       List<User> users = snapshot.data!.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return User(
+          link: data['link'],
           name_d: data['email'],
           title: data['title'],
           date: data['date'],
@@ -370,100 +438,97 @@ Widget hori_1() {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => (const MEvent()),
+                              builder: (context) => (SDetails(
+                                link: users[index].link,
+                                name: users[index].name_d,
+                                title: users[index].title,
+                                date: users[index].date,
+                                time: users[index].time,
+                                Des: users[index].Des,
+                                meeting: users[index].meeting,
+                                content1: users[index].content1,
+                                content2: users[index].content2,
+                                content3: users[index].content3,
+                                content4: users[index].content4,
+                              )),
                             ),
                           );
                         },
                         child: Container(
-                          decoration: const BoxDecoration(color: Colors.white),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.black),
                           child: SizedBox(
                             height: 100,
-                            width: 330,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 70.0,
-                                  height: 100.0,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.black),
-                                    child: Center(
-                                        child: Text(
-                                      '${users[index].date.substring(0, 2)} '
-                                      ' ${users[index].date.substring(3, 5)}',
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    )),
+                            width: 300,
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 5, top: 13),
+                                    child: Icon(
+                                      Icons.radar_outlined,
+                                      color: Colors.green,
+                                      size: 13,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 40,
-                                ),
-                                SizedBox(
-                                  width: 130,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 0, right: 20),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 5),
-                                          child: FittedBox(
-                                              fit: BoxFit.fitWidth,
-                                              child: Text(
-                                                (users[index].title.trimLeft()),
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 5, top: 13),
+                                    child: Text(
+                                      'online',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 40, top: 13),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: FittedBox(
+                                          fit: BoxFit.fitWidth,
+                                          child: Text(
+                                            (users[index].title.trim()),
+                                            style: const TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Icon(
+                                          Icons.timelapse,
+                                          size: 13,
+                                          color: Colors.white,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            const Icon(
-                                              Icons.timelapse,
-                                              size: 13,
-                                            ),
-                                            Text(users[index].time),
-                                          ],
+                                        Text(
+                                          users[index].time,
+                                          style:
+                                          const TextStyle(color: Colors.white),
                                         ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            const Icon(
-                                              Icons.date_range_outlined,
-                                              size: 13,
-                                            ),
-                                            Text(users[index].date),
-                                          ],
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            null;
+                                          },
+                                          child: const Text('Start Session'),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      null;
-                                    },
-                                    child: const Text('Join now'),
-                                  ),
-                                ),
-                              ],
+                                  )
+
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -473,7 +538,7 @@ Widget hori_1() {
             },
             separatorBuilder: (context, index) {
               return const SizedBox(
-                height: 10,
+                height: 15,
               );
             },
           ),
@@ -482,6 +547,156 @@ Widget hori_1() {
     },
   );
 }
+
+String date(date_1) {
+  if (date_1 == '01') {
+    return 'Jan';
+  } else if (date_1 == '02') {
+    return 'Feb';
+  } else if (date_1 == '03') {
+    return 'Mar';
+  } else if (date_1 == '04') {
+    return 'Apr';
+  } else if (date_1 == '05') {
+    return 'May';
+  } else if (date_1 == '06') {
+    return 'Jun';
+  } else if (date_1 == '07') {
+    return 'Jul';
+  } else if (date_1 == '08') {
+    return 'Aug';
+  } else if (date_1 == '09') {
+    return 'Sep';
+  } else if (date_1 == '10') {
+    return 'Oct';
+  } else if (date_1 == '11') {
+    return 'Nov';
+  } else {
+    return 'Dec';
+  }
+}
+
+class User {
+  final String name_d;
+  final String Des;
+  final String date;
+  final String time;
+  final String title;
+  final String meeting;
+  final String content1;
+  final String content2;
+  final String content3;
+  final String content4;
+  final String link;
+
+  User(
+      {required this.name_d,
+      required this.link,
+      required this.meeting,
+      required this.content1,
+      required this.content2,
+      required this.content3,
+      required this.content4,
+      required this.date,
+      required this.time,
+      required this.title,
+      required this.Des});
+}
+/*
+return ListView.builder(
+scrollDirection: Axis.vertical,
+shrinkWrap: true,
+itemCount: users.length,
+itemBuilder: (BuildContext context, int index) {
+return GestureDetector(
+onTap: () {
+Navigator.push(
+context,
+MaterialPageRoute(
+builder: (context) => (const MEvent()),
+),
+);
+},
+child: Container(
+decoration: const BoxDecoration(color: Colors.white),
+child: SizedBox(
+height: 100,
+width: 320,
+child: Row(
+mainAxisAlignment: MainAxisAlignment.start,
+children: [
+SizedBox(
+width: 70.0,
+height: 100.0,
+child: DecoratedBox(
+decoration: BoxDecoration(
+borderRadius: BorderRadius.circular(15),
+color: Colors.black),
+child: Center(
+child: Text(
+'${users[index].date.substring(0, 2)}  '
+' ${users[index].date.substring(3, 5)}',
+style: const TextStyle(
+fontSize: 15,
+fontWeight: FontWeight.bold,
+color: Colors.white),
+)),
+),
+),
+const SizedBox(
+width: 40,
+),
+SizedBox(
+width: 130,
+child: Padding(
+padding: const EdgeInsets.only(left: 0,right: 20),
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: <Widget>[
+Padding(
+padding: const EdgeInsets.only(bottom: 5),
+child: FittedBox(
+fit: BoxFit.fitWidth,
+child: Text((users[index].title.trimLeft()),style: const TextStyle( fontSize: 15,fontWeight: FontWeight.bold),)),
+),
+Row(
+mainAxisAlignment:MainAxisAlignment.start,
+children: <Widget>[
+const Icon(Icons.timelapse,size: 13,),
+Text(users[index].time),
+],
+),
+const SizedBox(
+height: 5,
+),
+Row(
+mainAxisAlignment:MainAxisAlignment.start,
+children: <Widget>[
+const Icon(Icons.date_range_outlined,size: 13,),
+Text(users[index].date),
+],
+),
+],
+),
+),
+),
+Align(
+alignment: Alignment.bottomRight,
+child: ElevatedButton(
+onPressed: () {
+null;
+},
+child: const Text('Join now'),
+),
+),
+],
+),
+),
+),
+);
+},
+);
+*/
 
 /*
 Widget hori() {
@@ -620,53 +835,64 @@ Widget hori() {
 }
 */
 
-class User {
-  final String name_d;
-  final String Des;
-  final String date;
-  final String time;
-  final String title;
-  final String meeting;
-  final String content1;
-  final String content2;
-  final String content3;
-  final String content4;
-
-  User(
-      {required this.name_d,
-      required this.meeting,
-      required this.content1,
-      required this.content2,
-      required this.content3,
-      required this.content4,
-      required this.date,
-      required this.time,
-      required this.title,
-      required this.Des});
-}
 /*
-return ListView.builder(
-scrollDirection: Axis.vertical,
-shrinkWrap: true,
-itemCount: users.length,
-itemBuilder: (BuildContext context, int index) {
-return GestureDetector(
-onTap: () {
+return Scaffold(
+body: Padding(
+padding: const EdgeInsets.only(left: 10, right: 10),
+child: SingleChildScrollView(child: HomeBody(name))),
+bottomNavigationBar: BottomAppBar(
+shape: const AutomaticNotchedShape(RoundedRectangleBorder(
+borderRadius: BorderRadius.all(
+Radius.circular(25),
+),
+)),
+child: Padding(
+padding: EdgeInsets.all(12),
+child: Container(
+decoration: BoxDecoration(
+border: Border.all(
+width: 2,
+),
+borderRadius: BorderRadius.circular(12),
+),
+child: Row(
+mainAxisAlignment: MainAxisAlignment.spaceAround,
+children: <Widget>[
+IconButton(
+icon: const Icon(Icons.home),
+onPressed: () {},
+),
+IconButton(
+icon: const Icon(Icons.calendar_today),
+onPressed: () {
+Navigator.push(context,
+MaterialPageRoute(builder: (context) => const MEvent()));
+},
+),
+IconButton(
+icon: const Icon(Icons.notification_add),
+onPressed: () {},
+),
+IconButton(
+icon: const Icon(Icons.person),
+onPressed: () {
 Navigator.push(
 context,
 MaterialPageRoute(
-builder: (context) => (const MEvent()),
-),
-);
+builder: (context) => MProfile(
+name_p: name,
+)));
 },
-child: Container(
-decoration: const BoxDecoration(color: Colors.white),
-child: SizedBox(
-height: 100,
-width: 320,
-child: Row(
-mainAxisAlignment: MainAxisAlignment.start,
-children: [
+),
+],
+),
+),
+),
+),
+floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+);
+*/
+/*
 SizedBox(
 width: 70.0,
 height: 100.0,
@@ -674,15 +900,33 @@ child: DecoratedBox(
 decoration: BoxDecoration(
 borderRadius: BorderRadius.circular(15),
 color: Colors.black),
-child: Center(
+child: Column(
+mainAxisAlignment:
+MainAxisAlignment.center,
+children: [
+Center(
 child: Text(
-'${users[index].date.substring(0, 2)}  '
-' ${users[index].date.substring(3, 5)}',
+date(users[index]
+.date
+    .substring(3, 5)),
 style: const TextStyle(
-fontSize: 15,
+fontSize: 12,
 fontWeight: FontWeight.bold,
 color: Colors.white),
 )),
+const SizedBox(
+height: 6,
+),
+Center(
+child: Text(
+'${users[index].date.substring(0, 2)} '
+'',
+style: const TextStyle(
+fontSize: 25,
+fontWeight: FontWeight.bold,
+color: Colors.white),
+)),
+]),
 ),
 ),
 const SizedBox(
@@ -691,20 +935,33 @@ width: 40,
 SizedBox(
 width: 130,
 child: Padding(
-padding: const EdgeInsets.only(left: 0,right: 20),
+padding: const EdgeInsets.only(
+left: 0, right: 20),
 child: Column(
-mainAxisAlignment: MainAxisAlignment.center,
+mainAxisAlignment:
+MainAxisAlignment.center,
 children: <Widget>[
 Padding(
-padding: const EdgeInsets.only(bottom: 5),
+padding:
+const EdgeInsets.only(bottom: 5),
 child: FittedBox(
 fit: BoxFit.fitWidth,
-child: Text((users[index].title.trimLeft()),style: const TextStyle( fontSize: 15,fontWeight: FontWeight.bold),)),
+child: Text(
+(users[index].title.trimLeft()),
+style: const TextStyle(
+fontSize: 15,
+fontWeight:
+FontWeight.bold),
+)),
 ),
 Row(
-mainAxisAlignment:MainAxisAlignment.start,
+mainAxisAlignment:
+MainAxisAlignment.start,
 children: <Widget>[
-const Icon(Icons.timelapse,size: 13,),
+const Icon(
+Icons.timelapse,
+size: 13,
+),
 Text(users[index].time),
 ],
 ),
@@ -712,30 +969,17 @@ const SizedBox(
 height: 5,
 ),
 Row(
-mainAxisAlignment:MainAxisAlignment.start,
+mainAxisAlignment:
+MainAxisAlignment.start,
 children: <Widget>[
-const Icon(Icons.date_range_outlined,size: 13,),
+const Icon(
+Icons.date_range_outlined,
+size: 13,
+),
 Text(users[index].date),
 ],
 ),
 ],
 ),
 ),
-),
-Align(
-alignment: Alignment.bottomRight,
-child: ElevatedButton(
-onPressed: () {
-null;
-},
-child: const Text('Join now'),
-),
-),
-],
-),
-),
-),
-);
-},
-);
-*/
+),*/
