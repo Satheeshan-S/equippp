@@ -6,11 +6,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
-
-void main() {
-  runApp(const MoLoginApp());
-}
-
 class MoLoginApp extends StatelessWidget {
   const MoLoginApp({super.key});
 
@@ -100,6 +95,7 @@ class _MLoginState extends State<MoLoginpage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: TextFormField(
+              keyboardType: TextInputType.number,
               cursorColor: Colors.black87,
               controller: phoneController,
               style: const TextStyle(
