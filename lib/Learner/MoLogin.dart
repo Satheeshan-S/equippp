@@ -1,3 +1,4 @@
+import 'package:equippp/Learner/HomePages/home_1.dart';
 import 'package:equippp/Provider/auth_provider.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
-import 'HomePages/lLogin.dart';
 
 void main() {
   runApp(const MoLoginApp());
@@ -192,7 +192,7 @@ class _MLoginState extends State<MoLoginpage> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const lLogin()));
+                            builder: (context) =>  LHome(phone: phoneController,email: 'false',)));
                   } else {
                     sendPhoneNumber();
                   }

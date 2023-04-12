@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equippp/Learner/HomePages/lLogin.dart';
+import 'package:equippp/Learner/HomePages/home_1.dart';
 import 'package:equippp/Learner/UserInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class _MCState extends State<MCPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                              const lLogin()));
+                               LHome(email: FirebaseAuth.instance.currentUser!.email,phone: '',)));
                     } else {
                       Navigator.pushReplacement(
                           context,

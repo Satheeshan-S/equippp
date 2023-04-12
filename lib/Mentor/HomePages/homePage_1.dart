@@ -272,7 +272,10 @@ Widget get() {
               );
             },
             child: Container(
-              decoration: const BoxDecoration(color: Colors.white),
+              decoration:  BoxDecoration(color: Colors.white,
+                border: Border.all(width: 0),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+              ),
               child: SizedBox(
                 height: 100,
                 width: 320,
@@ -284,7 +287,7 @@ Widget get() {
                       height: 100.0,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(20),
                             color: Colors.black),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -362,6 +365,13 @@ Widget get() {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                )
+                            )
+                        ),
                         onPressed: () {
                           null;
                         },

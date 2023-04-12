@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equippp/Learner/HomePages/home_1.dart';
 import 'package:equippp/Learner/UserInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
 import '../Provider/auth_provider.dart';
-import 'HomePages/lLogin.dart';
 import '../Provider/utils.dart';
 
 class OTPPage extends StatefulWidget {
@@ -142,7 +142,7 @@ class _OTPPageState extends State<OTPPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const lLogin()));
+                                               LHome(email: 'false', phone: phonenum)));
                                 } else if (otpCode != null) {
                                   verifyOtp(context, otpCode!, phonenum);
                                   showSnackBar(context, 'OTP verified');

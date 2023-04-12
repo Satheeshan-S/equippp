@@ -1,6 +1,5 @@
-import 'package:equippp/Learner/HomePages/home_1.dart';
+import 'package:equippp/Learner/mailc.dart';
 import 'package:equippp/Login_1.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../MoLogin.dart';
 import '../service.dart';
@@ -125,7 +124,7 @@ class _lLoginStateState extends State<lLoginState> {
                         ))),
                 onPressed: () async {
                   await FirebaseServices().signInWithGoogle();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  LHome(name: FirebaseAuth.instance.currentUser?.email)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  MCPage()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

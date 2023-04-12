@@ -34,40 +34,46 @@ List<bool> _isSelected = [false, false, false];
 String _selectedText = '';
 List<String> _tags = [];
 String phonei = '';
+String? namel = '';
+String? lemail = '';
 
 final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-Future<void> _saveDataEmail(name, email) async {
+Future<void> _saveDataEmail(namel, lemail) async {
   final myData = MyDataL(
-    name: name,
-    email: email,
+    name: namel,
+    email: lemail,
     interest: _tags,
     status: _selectedText,
     phone: '',
+    sessionid: [],
   );
   await _db.collection('Learner').doc().set(myData.toJson());
 }
 
 Future<void> _saveDataPhone(phoneie) async {
   final myData = MyDataL(
-    name: '',
-    email: '',
+    name: namel,
+    email: lemail,
     interest: _tags,
     status: _selectedText,
     phone: phonei,
+    sessionid: [],
   );
   await _db.collection('Learner').doc().set(myData.toJson());
 }
 
 class MyDataL {
-  String name;
-  String email;
+  String? name;
+  String? email;
   String phone;
   List interest;
   String status;
+  List<int> sessionid;
 
   MyDataL(
       {required this.email,
+      required this.sessionid,
       required this.phone,
       required this.name,
       required this.status,
@@ -79,11 +85,11 @@ class MyDataL {
       'name': name,
       'interest': interest,
       'status': status,
-      'phone': phone
+      'phone': phone,
+      'sessionid': sessionid,
     };
   }
 }
-
 
 /*late final name ;
 
@@ -136,6 +142,8 @@ class _InterestFieldState extends State<InterestField> {
     print(phone);
     super.initState();
     if (email == 'true') {
+      namel = FirebaseAuth.instance.currentUser?.displayName!;
+      lemail = FirebaseAuth.instance.currentUser?.email!;
       FirebaseAuth.instance.currentUser?.email!;
       print(FirebaseAuth.instance.currentUser?.email);
     } else {}
@@ -298,8 +306,8 @@ class _statusState extends State<status> {
   void initState() {
     super.initState();
     print(phonei);
-    print(FirebaseAuth.instance.currentUser?.displayName!);
-    print(FirebaseAuth.instance.currentUser?.email!);
+    print(FirebaseAuth.instance.currentUser?.displayName);
+    print(FirebaseAuth.instance.currentUser?.email);
   }
 
   @override
@@ -388,13 +396,12 @@ class _statusState extends State<status> {
             alignment: Alignment.bottomRight,
             child: ElevatedButton.icon(
                 onPressed: () async {
-                  if (email == 'true') {
-                      _saveDataEmail(
-                          FirebaseAuth.instance.currentUser?.displayName,
-                          FirebaseAuth.instance.currentUser?.email);
-                    }
-                  else {
+                  if (phonei != '') {
                     _saveDataPhone(phonei);
+                  } else {
+                    _saveDataEmail(
+                        FirebaseAuth.instance.currentUser?.displayName,
+                        FirebaseAuth.instance.currentUser?.email);
                   }
                   showModalBottomSheet<void>(
                     backgroundColor: Colors.deepPurpleAccent,
@@ -447,8 +454,7 @@ class _statusState extends State<status> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                             left: 20, right: 12),
-                                        child: Text(
-                                            'You have been registered as ${FirebaseAuth.instance.currentUser?.displayName!}'),
+                                        child:te(email, phone),
                                       ),
                                     ),
                                     const SizedBox(height: 12),
@@ -493,4 +499,12 @@ class _statusState extends State<status> {
     );
   }
 }
-
+Widget te(email,phone){
+  if(email=='true'){
+    return Text('You have been registered as ${
+    FirebaseAuth.instance.currentUser?.displayName}');
+  }
+  else{
+    return Text('You have been registered with $phone');
+  }
+}
