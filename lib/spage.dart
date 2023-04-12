@@ -1,7 +1,7 @@
 import 'package:equippp/Mentor/signuppage.dart';
 import 'package:flutter/material.dart';
 
-import 'Learner/LoginPage.dart';
+import 'Learner/SignupPage.dart';
 
 void main() {
   runApp(const SApp());

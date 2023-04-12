@@ -1,11 +1,11 @@
-import 'package:equippp/Learner/LoginPage.dart';
 import 'package:equippp/Provider/auth_provider.dart';
 import 'package:equippp/spage.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+
+import 'HomePages/lLogin.dart';
 
 void main() {
   runApp(const MoLoginApp());
@@ -183,7 +183,20 @@ class _MLoginState extends State<MoLoginpage> {
                         RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                 ))),
-                onPressed: () => sendPhoneNumber(),
+                onPressed: () async {
+                  final snapshot = await FirebaseFirestore.instance
+                      .collection('Learner')
+                      .where('phone', isEqualTo: phoneController.text)
+                      .get();
+                  if (snapshot.docs.isNotEmpty) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const lLogin()));
+                  } else {
+                    sendPhoneNumber();
+                  }
+                },
                 icon: const Icon(
                   Icons.arrow_right,
                   size: 24.0,

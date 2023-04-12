@@ -1,4 +1,4 @@
-import 'package:equippp/Learner/LoginPage.dart';
+import 'package:equippp/Learner/HomePages/lLogin.dart';
 import 'package:equippp/Mentor/Mlogin.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +61,7 @@ class MSLogin extends StatelessWidget {
                           ))),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) =>const LMPage()));
+                        MaterialPageRoute(builder: (context) =>const lLogin()));
                   },
                   child: const Text("Learner"),
                 ),

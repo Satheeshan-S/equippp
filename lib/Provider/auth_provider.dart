@@ -43,7 +43,7 @@ class AuthProvider extends ChangeNotifier {
                 context,
                 MaterialPageRoute(
                     builder: (context) => OTPPage(
-                          verificationId: verificationId,
+                          verificationId: verificationId, phone: phoneNumber,
                         )));
           },
           codeAutoRetrievalTimeout: (verificationId) {});

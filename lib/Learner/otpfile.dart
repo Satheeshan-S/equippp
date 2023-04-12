@@ -1,24 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Learner/UserInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
 import '../Provider/auth_provider.dart';
-import 'MoLogin.dart';
+import 'HomePages/lLogin.dart';
 import '../Provider/utils.dart';
 
 class OTPPage extends StatefulWidget {
   final String verificationId;
+  final String phone;
 
   const OTPPage({
     Key? key,
     required this.verificationId,
+    required this.phone,
   }) : super(key: key);
 
   @override
-  State<OTPPage> createState() => _OTPPageState();
+  State<OTPPage> createState() => _OTPPageState(phone);
 }
 
 class _OTPPageState extends State<OTPPage> {
+  final phonenum;
+
+  _OTPPageState(this.phonenum);
+
   String? otpCode;
 
   @override
@@ -124,11 +131,21 @@ class _OTPPageState extends State<OTPPage> {
                                   borderRadius: BorderRadius.circular(18.0),
                                 )),
                               ),
-                              onPressed: () {
-                                if (otpCode != null) {
-                                  verifyOtp(context, otpCode!);
+                              onPressed: () async {
+                                final snapshot = await FirebaseFirestore
+                                    .instance
+                                    .collection('Learner')
+                                    .where('phone', isEqualTo: phonenum)
+                                    .get();
+                                if (snapshot.docs.isNotEmpty) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const lLogin()));
+                                } else if (otpCode != null) {
+                                  verifyOtp(context, otpCode!, phonenum);
                                   showSnackBar(context, 'OTP verified');
-
                                 } else {
                                   showSnackBar(context, 'Enter 6-Digit code');
                                 }
@@ -155,7 +172,7 @@ class _OTPPageState extends State<OTPPage> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors. black87,
+                              color: Colors.black87,
                             ),
                           ),
                         ],
@@ -168,7 +185,7 @@ class _OTPPageState extends State<OTPPage> {
     );
   }
 
-  void verifyOtp(BuildContext context, String userOtp) {
+  void verifyOtp(BuildContext context, String userOtp, String phoneNumber) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     ap.verifyOtp(
         context: context,
@@ -180,7 +197,11 @@ class _OTPPageState extends State<OTPPage> {
             } else {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Uapp()),
+                MaterialPageRoute(
+                    builder: (context) => Uapp(
+                          phone: phoneNumber,
+                          email: 'false',
+                        )),
               );
             }
           });
