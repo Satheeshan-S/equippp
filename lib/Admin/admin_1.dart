@@ -31,8 +31,8 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
-      'skills':skills,
-      'email':email,
+      'skills': skills,
+      'email': email,
       'name': name,
       'gender': gender,
       'age': age,
@@ -122,8 +122,8 @@ class _MLadmin_1State extends State<MLadmin_1> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => (detail(
-                        email:users[index].email,
+                      builder: (context) => (DetailMentor(
+                        email: users[index].email,
                         name: users[index].name,
                         gender: users[index].gender,
                         age: users[index].age,
@@ -150,51 +150,7 @@ class _MLadmin_1State extends State<MLadmin_1> {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          final usersCollection =
-                              FirebaseFirestore.instance.collection('Mentor');
-                          final user1DocRef = usersCollection.where("name",
-                              isEqualTo: users[index].name);
-                          user1DocRef.get().then(
-                            (querySnapshot) {
-                              print("Successfully completed");
-                              for (var docSnapshot in querySnapshot.docs) {
-                                docSnapshot.reference.update({'verify': true});
-                              }
-                            },
-                          );
-                          Future<void> _saveData() async {
-                            final skills=users[index].skills;
-                            final name = users[index].name;
-                            final gender = users[index].gender;
-                            final age = users[index].age;
-                            final phone = users[index].phone;
-                            final status = users[index].status;
-                            final explain = users[index].explain;
-                            final description = users[index].description;
-                            final Url = users[index].Url;
-                            final email=users[index].email;
-                            final myData = User(
-                              skills: skills,
-                              email: email,
-                              name: name,
-                              age: age,
-                              gender: gender,
-                              phone: phone,
-                              status: status,
-                              explain: explain,
-                              description: description,
-                              Url: Url,
-                            );
-
-                            await FirebaseFirestore.instance
-                                .collection('loggedMentor')
-                                .doc()
-                                .set(myData.toJson());
-                          }
-
-                          _saveData();
-                        },
+                        onPressed: () {},
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),

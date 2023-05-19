@@ -170,47 +170,49 @@ class _LHome_2StateState extends State<LHome_2State> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        const SizedBox(
-          height: 40,
-        ),
-        SizedBox(
-          height: 60,
-          child: Row(
-            children: <Widget>[
-              Align(
-                alignment: AlignmentDirectional.topStart,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                ),
-              ),
-              const Padding(
-                  padding: EdgeInsets.only(left: 100),
-                  child: Text(
-                    'Logo',
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(left: 100),
-                child: Align(
-                  alignment: AlignmentDirectional.topEnd,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(
+            height: 40,
+          ),
+          SizedBox(
+            height: 60,
+            child: Row(
+              children: <Widget>[
+                Align(
+                  alignment: AlignmentDirectional.topStart,
                   child: IconButton(
                     onPressed: () {},
-                    icon: const Icon(Icons.notifications_active),
+                    icon: const Icon(Icons.search),
                   ),
                 ),
-              ),
-            ],
+                const Padding(
+                    padding: EdgeInsets.only(left: 100),
+                    child: Text(
+                      'Logo',
+                      style:
+                          TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(left: 100),
+                  child: Align(
+                    alignment: AlignmentDirectional.topEnd,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.notifications_active),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const Divider(color: Colors.black12),
-        Padding(
-            padding: const EdgeInsets.only(left: 11, right: 11), child: lget()),
-      ],
+          const Divider(color: Colors.black12),
+          Padding(
+              padding: const EdgeInsets.only(left: 11, right: 11), child: lget()),
+        ],
+      ),
     );
   }
 }
@@ -287,7 +289,7 @@ Widget lget() {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 65.0,
+                      width: 70.0,
                       height: 100.0,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
@@ -367,7 +369,7 @@ Widget lget() {
                       ),
                     ),
                     Align(
-                      alignment: Alignment.bottomLeft,
+                      alignment: Alignment.bottomRight,
                       child: SizedBox(
                         width: 89,
                         child: ElevatedButton(

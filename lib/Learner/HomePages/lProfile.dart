@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../mailc.dart';
 import 'home_1.dart';
 
 void getpr(){
@@ -90,78 +91,94 @@ class _LProfileStateState extends State<LProfileState> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-      const SizedBox(
-        height: 30,
-      ),
-      Row(
-        children: <Widget>[
-          Align(
-            alignment: AlignmentDirectional.topStart,
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.backspace),
-            ),
-          ),
-        ],
-      ),
-      const SizedBox(
-        height: 30,
-      ),
-      ClipOval(
-          child: SizedBox.fromSize(
-        size: const Size.fromRadius(50),
-        child: Image.network(''),
-      )),
-      Padding(
-          padding: const EdgeInsets.only(top: 8, bottom: 8), child: Text(name)),
-      Text(email),
-      const SizedBox(
-        height: 20,
-      ),
-      const Align(
-        alignment: Alignment.topLeft,
-        child: Padding(
-            padding: EdgeInsets.all(7),
-            child: Text('Interest',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ))),
-      ),
-      Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-         Align(
-                alignment: Alignment.topLeft,
-                child: Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  children: interest.map((tag) {
-                    return InputChip(
-                      label: Text(tag),
-                    );
-                  }).toList(),
-                ),
+    return WillPopScope(
+      onWillPop: () async {
+        getpr();
+        return true; // Return true to allow the page to be popped
+      },
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        const SizedBox(
+          height: 30,
+        ),
+        Row(
+          children: <Widget>[
+            Align(
+              alignment: AlignmentDirectional.topStart,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.backspace),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              width: 250,
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.data_saver_on),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        ClipOval(
+            child: SizedBox.fromSize(
+          size: const Size.fromRadius(50),
+          child: Image.network(''),
+        )),
+        Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 8), child: Text(name)),
+        Text(email),
+        const SizedBox(
+          height: 20,
+        ),
         const Align(
           alignment: Alignment.topLeft,
           child: Padding(
               padding: EdgeInsets.all(7),
-              child: Text('Contact',
+              child: Text('Interest',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ))),
         ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(7),
-            child: Container(
-              decoration: const BoxDecoration(), //
-              child: Text(phone),
+        Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+           Align(
+                  alignment: Alignment.topLeft,
+                  child: Wrap(
+                    spacing: 8.0,
+                    runSpacing: 4.0,
+                    children: interest.map((tag) {
+                      return InputChip(
+                        label: Text(tag),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
             ),
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+                padding: EdgeInsets.all(7),
+                child: Text('Contact',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ))),
           ),
-        )
-    ]);
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(7),
+              child: Container(
+                decoration: const BoxDecoration(), //
+                child: Text(phone),
+              ),
+            ),
+          )
+      ]),
+    );
   }
 }

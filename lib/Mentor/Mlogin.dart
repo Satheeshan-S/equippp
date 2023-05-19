@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Mentor/HomePages/homePage_1.dart';
+import 'package:equippp/Provider/utils.dart';
 import 'package:equippp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import '../Admin/AHome.dart';
 import 'ForgetPage.dart';
-
-String a = 'admin';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _MLoginState extends State<MLogin> {
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) {
                 setState(() {
-                  emailController.text = value;
+                  emailController.text= value;
                   _textFieldValue = value;
                 });
               },
@@ -171,18 +171,21 @@ class _MLoginState extends State<MLogin> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
-                onPressed: () {
-                  if ((emailController.text == a) &
-                      (passController.text == 'admin')) {
+                onPressed: ()  async {
+                  if ((emailController.text.trim() == 'admin') &
+                      (passController.text.trim() == 'admin')) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const ad()));
-                  } else {
+                  }
+                  else if ( await fetchField(emailController.text.trim())) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MHome(
-                                  name: _textFieldValue,
-                                )));
+                            builder: (context) =>
+                                MHome(name: emailController.text.trim())));
+                  }
+                  else{
+                    showSnackBar(context, 'Inavlid crendentials');
                   }
                 },
                 child: const Text(
@@ -193,5 +196,28 @@ class _MLoginState extends State<MLogin> {
         ),
       ],
     );
+  }
+}
+
+final CollectionReference firestore =
+    FirebaseFirestore.instance.collection('Login_Mentor');
+
+Future<bool> fetchField(String email) async {
+  final QuerySnapshot snapshot =
+      await firestore.where('email', isEqualTo: email).limit(1).get();
+
+  if (snapshot.docs.isNotEmpty) {
+    final DocumentSnapshot document = snapshot.docs.first;
+    final Map<String, dynamic> userData =
+        document.data() as Map<String, dynamic>;
+
+    // Compare the password
+    if (userData['password'] == passController.text) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
   }
 }

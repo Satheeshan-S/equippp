@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equippp/Mentor/HomePages/homePage_1.dart';
+import 'package:equippp/Provider/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 final name_e=eventName;
@@ -87,7 +88,7 @@ Future<void> _saveData() async {
 }
 
 List<String> li = <String>['Education', 'Music', 'Cinematography'];
-String typeValue = li.first;
+String typeValue =li.first ;
 TextEditingController titleController = TextEditingController();
 TextEditingController _timeController = TextEditingController();
 TextEditingController dateController = TextEditingController();
@@ -618,11 +619,36 @@ class _EventState extends State<Event> {
                 borderRadius: BorderRadius.circular(25.0),
               ))),
               onPressed: () {
-                _saveData();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>  MHome(name: name_e)));
+                if(titleController.text==''){
+                  showSnackBar(context, 'Enter the title');
+                }
+                else if(typeValue==''){
+                  showSnackBar(context, 'Enter the Meeting type');
+                }
+                else if(dateController.text==''){
+                  showSnackBar(context, 'Enter the Date');
+                }
+                else if(_timeController.text==''){
+                  showSnackBar(context, 'Enter the time');
+                }
+                else if(desController.text==''){
+                  showSnackBar(context, 'Enter the Description');
+                }
+                else if(content1Controller.text==''){
+                  showSnackBar(context, 'Enter the Content1');
+                }
+                else if(content2Controller.text==''){
+                  showSnackBar(context, 'Enter the Content2');
+                }else if(linkController.text==''){
+                  showSnackBar(context, 'Enter the Link for the meeting');
+                }
+                else{
+                  _saveData();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  MHome(name: name_e)));
+                }
               },
               child: const Text('Continue & Send Invitation')),
         )

@@ -35,22 +35,24 @@ class _LEventStateState extends State<LEventState> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children:<Widget> [
-        const SizedBox(
-          height: 40,
-        ),
-        const Center(
-          child: Text(
-            'Event you have Joined ',
-            style:
-            TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children:<Widget> [
+          const SizedBox(
+            height: 40,
           ),
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left: 11, right: 11), child: lget_2()),
-      ],
+          const Center(
+            child: Text(
+              'Event you have Joined ',
+              style:
+              TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 11, right: 11), child: lget_2()),
+        ],
+      ),
     );
   }
 }

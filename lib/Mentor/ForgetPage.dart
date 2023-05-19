@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class Forget extends StatelessWidget {
     );
   }
 }
+
 final TextEditingController emailController = TextEditingController();
 
 class MForget extends StatefulWidget {
@@ -91,25 +93,24 @@ class _MForgetState extends State<MForget> {
                 ),
                 suffixIcon: EmailValidator.validate(emailController.text)
                     ? Container(
-                  height: 30,
-                  width: 30,
-                  margin: const EdgeInsets.all(10.0),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.black,
-                  ),
-                  child: const Icon(
-                    Icons.done,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                )
+                        height: 30,
+                        width: 30,
+                        margin: const EdgeInsets.all(10.0),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: const Icon(
+                          Icons.done,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      )
                     : null,
               ),
             ),
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.only(left: 18, bottom: 12),
           child: SizedBox(
@@ -120,7 +121,18 @@ class _MForgetState extends State<MForget> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
-                  null;
+                  final usersCollection =
+                      FirebaseFirestore.instance.collection('Mentor');
+                  final user1DocRef = usersCollection.where("email",
+                      isEqualTo: emailController.text.trim());
+                  user1DocRef.get().then(
+                    (querySnapshot) {
+                      for (var docSnapshot in querySnapshot.docs) {
+                        docSnapshot.reference.update({'verify': false});
+                      }
+                    },
+                  );
+                  deleteuser(emailController.text.trim());
                 },
                 child: const Text(
                   'Log In',
@@ -130,5 +142,18 @@ class _MForgetState extends State<MForget> {
         ),
       ],
     );
+  }
+}
+
+Future<void> deleteuser(String email) async {
+  final CollectionReference firestore =
+      FirebaseFirestore.instance.collection('Login_Mentor');
+  final QuerySnapshot snapshot =
+      await firestore.where('email', isEqualTo: email).get();
+  if (snapshot.docs.isNotEmpty) {
+    final DocumentSnapshot document = snapshot.docs.first;
+    final String docId = document.id;
+    final DocumentReference documentRef = firestore.doc(docId);
+    documentRef.delete().then((value) {}).catchError((error) {});
   }
 }

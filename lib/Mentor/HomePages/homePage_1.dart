@@ -68,48 +68,44 @@ class _DemoBottomAppBar extends State<BottomAppBarExample> {
           child: _pages.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomAppBar(
         height: 100,
-        color: Colors.transparent,
+        color: Colors.white,
         elevation: 0,
-        child: SizedBox(
-          height: 100,
-          width: 250,
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(28),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  IconButton(
-                      icon: const Icon(Icons.home),
-                      onPressed: () {
-                        _onItemTapped(0);
-                      }),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today),
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(28),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                    icon: const Icon(Icons.home),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MEvent()));
+                      _onItemTapped(0);
+                    }),
+                IconButton(
+                  icon: const Icon(Icons.calendar_today),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MEvent()));
 /*
-                      _onItemTapped(1);
+                    _onItemTapped(1);
 */
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.notification_add),
-                    onPressed: () => _onItemTapped(2),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.person),
-                    onPressed: () => _onItemTapped(3),
-                  ),
-                ],
-              ),
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.notification_add),
+                  onPressed: () => _onItemTapped(2),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.person),
+                  onPressed: () => _onItemTapped(3),
+                ),
+              ],
             ),
           ),
         ),
@@ -205,7 +201,7 @@ class _HomeBodyState extends State<HomeBody> {
                 alignment: Alignment.topLeft, child: Text('Upcoming Events')),
           ),
           Padding(
-              padding: const EdgeInsets.only(left: 18, right: 13),
+              padding: const EdgeInsets.only(left: 11, right: 11),
               child: get()),
         ],
       ),
@@ -272,7 +268,8 @@ Widget get() {
               );
             },
             child: Container(
-              decoration:  BoxDecoration(color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.white,
                 border: Border.all(width: 0),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
               ),
@@ -364,18 +361,20 @@ Widget get() {
                     ),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                )
-                            )
+                      child: SizedBox(
+                        width: 89,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ))),
+                          onPressed: () {
+                            null;
+                          },
+                          child: const Text('Join now'),
                         ),
-                        onPressed: () {
-                          null;
-                        },
-                        child: const Text('Join now'),
                       ),
                     ),
                   ],
@@ -394,11 +393,16 @@ Widget get() {
   );
 }
 
+DateTime now = DateTime.now();
+DateTime today = DateTime(now.year, now.month, now.day);
+
 Widget hori_1() {
   final CollectionReference userRef =
       FirebaseFirestore.instance.collection('Sessions');
   return StreamBuilder<QuerySnapshot>(
-    stream: userRef.where('email', isEqualTo: eventName).snapshots(),
+    stream: userRef
+        .where('email', isEqualTo: eventName)
+        .snapshots(),
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
@@ -471,75 +475,101 @@ Widget hori_1() {
                           child: SizedBox(
                             height: 100,
                             width: 300,
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Row(
+                            child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 5, top: 13),
-                                    child: Icon(
-                                      Icons.radar_outlined,
-                                      color: Colors.green,
-                                      size: 13,
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 5, top: 13),
-                                    child: Text(
-                                      'online',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 40, top: 13),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 5),
-                                      child: FittedBox(
-                                          fit: BoxFit.fitWidth,
-                                          child: Text(
-                                            (users[index].title.trim()),
-                                            style: const TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
-                                        const Icon(
-                                          Icons.timelapse,
-                                          size: 13,
-                                          color: Colors.white,
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15, top: 13),
+                                          child: Icon(
+                                            Icons.circle_rounded,
+                                            color: Colors.lightGreenAccent,
+                                            size: 13,
+                                          ),
                                         ),
-                                        Text(
-                                          users[index].time,
-                                          style:
-                                          const TextStyle(color: Colors.white),
+                                        const Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 5, top: 13),
+                                          child: Text(
+                                            'Online',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontStyle: FontStyle.normal),
+                                          ),
                                         ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            null;
-                                          },
-                                          child: const Text('Start Session'),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 40, top: 13),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(),
+                                            child: FittedBox(
+                                                fit: BoxFit.fitWidth,
+                                                child: Text(
+                                                  (users[index]
+                                                      .title
+                                                      .trimLeft()),
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )),
+                                          ),
+                                        ),
+                                      ]),
+                                  Align(
+                                    alignment: AlignmentDirectional.bottomStart,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 15, top: 40),
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.punch_clock_rounded,
+                                                size: 13,
+                                                color: Colors.white,
+                                              ),
+                                              Text(
+                                                users[index].time,
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 130),
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ))),
+                                            onPressed: () {
+                                              null;
+                                            },
+                                            child: const Text('Start Session'),
+                                          ),
                                         ),
                                       ],
                                     ),
                                   )
-
-                                ],
-                              ),
-                            ),
+                                ]),
                           ),
                         ),
                       ),
@@ -548,7 +578,7 @@ Widget hori_1() {
             },
             separatorBuilder: (context, index) {
               return const SizedBox(
-                height: 15,
+                width: 15,
               );
             },
           ),

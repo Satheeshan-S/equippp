@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:equippp/main.dart';
 import 'dart:io';
 
+String name_sm='';
 List<String> list = <String>['Male', 'Female', 'Others'];
 String dropdownValue = list.first;
 String dropdownValue_2 = 'select';
@@ -57,13 +58,28 @@ class MSignup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    Future<bool> onBackPressed(BuildContext context) async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SApp(),
+        ),
+      );
+      return false;
+    }
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(child: Msignupstate()),
+      home: WillPopScope(
+        onWillPop: () => onBackPressed(context),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: const Msignupstate(),
+          ),
+        ),
       ),
     );
+
   }
 }
 
@@ -98,6 +114,8 @@ class _MsignupstateState extends State<Msignupstate> {
     e164Key: '',
   );
 
+
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +126,7 @@ class _MsignupstateState extends State<Msignupstate> {
     ageController = TextEditingController();
     desController = TextEditingController();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +177,7 @@ class _MsignupstateState extends State<Msignupstate> {
             child: TextFormField(
               onChanged: (value) {
                 setState(() {
+                  name_sm=value;
                   nameController.text = value;
                 });
               },
@@ -165,7 +185,7 @@ class _MsignupstateState extends State<Msignupstate> {
                 fillColor: Colors.grey.withOpacity(0.2),
                 filled: true,
                 hintText: 'Name?',
-                labelText: 'Name *',
+                labelText: name_sm,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: Colors.white),
@@ -597,305 +617,318 @@ class _MsignupstateState_2 extends State<Msignupstate_2> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          color: Colors.white,
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MSignup(),
-                  ));
-            },
-            child: Image.asset("lib/images/images.png"),
+    Future<bool> onBackPressed() async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Msignupstate()),
+      );
+      return false;
+    }
+    return WillPopScope(
+      onWillPop: onBackPressed,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MSignup(),
+                    ));
+              },
+              child: Image.asset("lib/images/images.png"),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 18),
-          child: Text(
-            'Sign in as Mentor',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          const SizedBox(
+            height: 20,
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 18),
-          child: Text(
-            'Hello, welcome back to Trag',
-            style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-                color: Colors.grey),
+          const Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Text(
+              'Sign in as Mentor',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildImagePicker_2(),
-              const SizedBox(height: 16.0),
-            ],
+          const Padding(
+            padding: EdgeInsets.only(left: 18),
+            child: Text(
+              'Hello, welcome back to Trag',
+              style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 18, bottom: 5),
-          child: Text('Why do you want to conduct this session.'),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18),
-          child: TextFormField(
-            onChanged: (value) {
-              setState(() {
-                desController.text = value;
-              });
-            },
-            maxLines: 5,
-            minLines: 3,
-            decoration: InputDecoration(
-              labelText: 'Add some Description',
-              fillColor: Colors.grey.withOpacity(0.2),
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.black87),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.black12),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildImagePicker_2(),
+                const SizedBox(height: 16.0),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 18, bottom: 5),
+            child: Text('Why do you want to conduct this session.'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 18, right: 18),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  desController.text = value;
+                });
+              },
+              maxLines: 5,
+              minLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Add some Description',
+                fillColor: Colors.grey.withOpacity(0.2),
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black87),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.black12),
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 18, bottom: 5),
-          child: Text('Add Skills'),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18, bottom: 5, top: 5),
-          child: Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: _tags.map((tag) {
-              return InputChip(
-                label: Text(tag),
-                onDeleted: () {
-                  _removeTag(tag);
-                },
-              );
-            }).toList(),
+          const SizedBox(
+            height: 20,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18, bottom: 5, top: 5),
-          child: TextField(
-            controller: skilltagcontroller,
-            onSubmitted: _addTag,
-            decoration: const InputDecoration(
-              hintText: 'Enter a tag',
-            ),
+          const Padding(
+            padding: EdgeInsets.only(left: 18, bottom: 5),
+            child: Text('Add Skills'),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 220),
-          child: SizedBox(
-            height: 40,
-            width: 120,
-            child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: ElevatedButton.icon(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.blueAccent),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ))),
-                  onPressed: () {
-                    _uploadImageToStorage();
-                    if (validate(
-                      nameController.text,
-                      ageController.text,
-                      mPhone.text,
-                      statusController.text,
-                      explainController,
-                      desController,
-                    )) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.0),
-                              color: Colors.white,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(nameController.text),
-                                Text(dropdownValue),
-                                Text(ageController.text),
-                                Text(mPhone.text),
-                                Text(explainController.text),
-                                Text(statusController.text),
-                                Text(desController.text),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const MSignup_2()));
-                                    },
-                                    child: const Text(
-                                        'Move back to sign up page')),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    _saveData();
-                                    _uploadImageToStorage();
-                                    showModalBottomSheet<void>(
-                                      backgroundColor: Colors.deepPurpleAccent,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SizedBox(
-                                          height: 400,
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors
-                                                                  .black)),
-                                                    ),
-                                                    height: 200,
-                                                    child: Center(
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: const <
-                                                            Widget>[
-                                                          Text(
-                                                            'Thank You',
-                                                            style: TextStyle(
-                                                                fontSize: 30,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                          Icon(
-                                                            Icons
-                                                                .verified_rounded,
-                                                            size: 150,
-                                                            color: Colors.white,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                Container(
-                                                  height: 200,
-                                                  color: Colors.white,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: <Widget>[
-                                                      const SizedBox(
-                                                        height: 14,
-                                                      ),
-                                                      const Center(
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 20,
-                                                                  right: 12),
-                                                          child: Text(
-                                                              'We will get back to you within 48 hours shortly please check your mail'),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 12),
-                                                      ElevatedButton(
-                                                          style: ButtonStyle(
-                                                              backgroundColor:
-                                                                  MaterialStateProperty.all<
-                                                                          Color>(
-                                                                      Colors
-                                                                          .deepPurpleAccent)),
-                                                          // Here Im having the error                                        ),
-                                                          onPressed: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const MyApp()));
-                                                          },
-                                                          child: const Text(
-                                                            'Go back to home page',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          )),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: const Text('Check and click summit'),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Enter all the fields"),
-                      ));
-                    }
+          Padding(
+            padding: const EdgeInsets.only(left: 18, bottom: 5, top: 5),
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              children: _tags.map((tag) {
+                return InputChip(
+                  label: Text(tag),
+                  onDeleted: () {
+                    _removeTag(tag);
                   },
-                  icon: const Icon(
-                    Icons.arrow_right_alt,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    'Request',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )),
+                );
+              }).toList(),
+            ),
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.only(left: 18, bottom: 5, top: 5),
+            child: TextField(
+              controller: skilltagcontroller,
+              onSubmitted: _addTag,
+              decoration: const InputDecoration(
+                hintText: 'Enter a tag',
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 220),
+            child: SizedBox(
+              height: 40,
+              width: 120,
+              child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blueAccent),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ))),
+                    onPressed: () {
+                      setState(() {
+                        name_sm='';
+                      });
+                      _uploadImageToStorage();
+                      if (validate(
+                        nameController.text,
+                        ageController.text,
+                        mPhone.text,
+                        statusController.text,
+                        explainController,
+                        desController,
+                      )) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(nameController.text),
+                                  Text(dropdownValue),
+                                  Text(ageController.text),
+                                  Text(mPhone.text),
+                                  Text(explainController.text),
+                                  Text(statusController.text),
+                                  Text(desController.text),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const MSignup_2()));
+                                      },
+                                      child: const Text(
+                                          'Move back to sign up page')),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _saveData();
+                                      _uploadImageToStorage();
+                                      showModalBottomSheet<void>(
+                                        backgroundColor: Colors.deepPurpleAccent,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return SizedBox(
+                                            height: 400,
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors
+                                                                    .black)),
+                                                      ),
+                                                      height: 200,
+                                                      child: Center(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: const <
+                                                              Widget>[
+                                                            Text(
+                                                              'Thank You',
+                                                              style: TextStyle(
+                                                                  fontSize: 30,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .verified_rounded,
+                                                              size: 150,
+                                                              color: Colors.white,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )),
+                                                  Container(
+                                                    height: 200,
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: <Widget>[
+                                                        const SizedBox(
+                                                          height: 14,
+                                                        ),
+                                                        const Center(
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 20,
+                                                                    right: 12),
+                                                            child: Text(
+                                                                'We will get back to you within 48 hours shortly please check your mail'),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 12),
+                                                        ElevatedButton(
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStateProperty.all<
+                                                                            Color>(
+                                                                        Colors
+                                                                            .deepPurpleAccent)),
+                                                            // Here Im having the error                                        ),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const MyApp()));
+                                                            },
+                                                            child: const Text(
+                                                              'Go back to home page',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: const Text('Check and click summit'),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Enter all the fields"),
+                        ));
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.arrow_right_alt,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Request',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
